@@ -1,300 +1,141 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E3B31">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>기린반 캠핑</title>
 <style>
   :root {
-    --ink: #12211B;
-    --pine: #1E3B31;
-    --pine-2: #2C5648;
-    --paper: #F6F2E9;
-    --card: #FFFFFF;
-    --line: #DED7C7;
-    --line-soft: #ECE6D8;
-    --muted: #6B7A72;
-    --amber: #DF9B2C;
-    --amber-dark: #B87A17;
-    --rust: #9E4B33;
-    --green: #2E7D5B;
+    --ink: #12211B; --pine: #1E3B31; --pine-2: #2C5648;
+    --paper: #F6F2E9; --card: #FFFFFF; --line: #DED7C7; --line-soft: #ECE6D8;
+    --muted: #6B7A72; --amber: #DF9B2C; --amber-dark: #B87A17; --amber-soft: #FDF6E7;
+    --rust: #9E4B33; --green: #2E7D5B; --green-soft: #E7EFE9;
   }
-
   * { box-sizing: border-box; }
-
+  html, body { margin: 0; background: var(--paper); }
   .app {
-    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
-                 "Noto Sans KR", "Malgun Gothic", sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100%;
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.5;
+    -webkit-font-smoothing: antialiased; padding-bottom: env(safe-area-inset-bottom);
   }
-
   .app button { font-family: inherit; cursor: pointer; }
   .app input, .app select, .app textarea { font-family: inherit; }
   .app :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
-
   .num { font-variant-numeric: tabular-nums; }
+  a { color: var(--amber-dark); }
 
-  /* ── 헤더 ────────────────────────────────── */
-  .hero {
-    background: var(--pine);
-    color: var(--paper);
-    padding: 22px 20px 20px;
-  }
-  .hero h1 {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-  }
-  .hero .sub {
-    margin-top: 6px;
-    font-size: 13.5px;
-    color: #A9C2B6;
-  }
-  .hero .who {
-    margin-top: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #A9C2B6;
-  }
-  .hero .who button {
-    background: transparent;
-    border: 1px solid #3F6455;
-    color: var(--paper);
-    border-radius: 999px;
-    padding: 4px 11px;
-    font-size: 13px;
-  }
+  .hero { background: var(--pine); color: var(--paper); padding: 22px 20px 18px; padding-top: calc(22px + env(safe-area-inset-top)); }
+  .hero h1 { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; }
+  .hero .sub { margin-top: 6px; font-size: 13.5px; color: #A9C2B6; }
+  .hero .who { margin-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #A9C2B6; flex-wrap: wrap; }
+  .hero .who button { background: transparent; border: 1px solid #3F6455; color: var(--paper); border-radius: 999px; padding: 4px 11px; font-size: 13px; }
 
-  /* ── 레이아웃 ─────────────────────────────── */
-  .wrap { padding: 16px 16px 48px; max-width: 640px; margin: 0 auto; }
+  .wrap { padding: 16px 16px 60px; max-width: 640px; margin: 0 auto; }
+  .rowline { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  h2.sec { margin: 26px 0 10px; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
+  h2.sec small { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+  .yearhead { margin: 22px 0 8px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
 
-  .rowline {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-  }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 11px; }
+  .stat .k { font-size: 11.5px; color: var(--muted); }
+  .stat .v { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  h2.sec {
-    margin: 26px 0 10px;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pill { background: transparent; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 13px; }
+  .pill.on { background: var(--pine); border-color: var(--pine); color: var(--paper); }
 
-  /* ── 캠핑 카드 ────────────────────────────── */
-  .trip {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px 15px;
-    margin-bottom: 10px;
-    color: inherit;
-  }
-  .trip .date {
-    font-size: 12.5px;
-    color: var(--muted);
-  }
-  .trip .place {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 2px 0 8px;
-  }
-  .trip .meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 13px;
-    color: var(--muted);
-  }
+  .trip { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 15px; margin-bottom: 10px; color: inherit; }
+  .trip .date { font-size: 12.5px; color: var(--muted); display: flex; justify-content: space-between; }
+  .trip .place { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0 8px; }
+  .trip .meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--muted); }
   .trip .cost { font-weight: 600; color: var(--ink); }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-weight: 600; }
+  .badge.warn { background: var(--amber-soft); color: var(--amber-dark); }
+  .badge.dim { background: var(--line-soft); color: var(--muted); }
 
-  /* ── 영수증형 항목 목록 ─────────────────────── */
-  .ledger {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4px 10px;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--line-soft);
-  }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 15px; }
+  .kv { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+  .kv:last-child { border-bottom: 0; }
+  .kv .k { color: var(--muted); flex-shrink: 0; }
+  .kv .v { text-align: right; word-break: break-all; }
+
+  .ledger { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .item { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); }
   .item:last-child { border-bottom: 0; }
   .item .name { font-size: 15px; font-weight: 500; }
   .item .amount { font-size: 15px; font-weight: 600; white-space: nowrap; }
   .item .by { font-size: 12.5px; color: var(--muted); }
-  .item .tools { display: flex; gap: 10px; align-items: center; justify-content: flex-end; }
-  .item a {
-    font-size: 12.5px;
-    color: var(--amber-dark);
-    text-decoration: none;
-    border-bottom: 1px solid #EBD3A6;
-  }
-  .item .del {
-    background: none;
-    border: 0;
-    color: #A9A398;
-    font-size: 13px;
-    padding: 0;
-  }
+  .item .tools { display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .item .tools a { font-size: 12.5px; text-decoration: none; border-bottom: 1px solid #EBD3A6; }
+  .item .del { background: none; border: 0; color: #A9A398; font-size: 13px; padding: 0; }
+  .item .edit { background: none; border: 0; color: var(--amber-dark); font-size: 13px; padding: 0; }
+  .item.editing { background: #FFFBF2; }
+  .cat { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .total { display: flex; justify-content: space-between; padding: 13px 14px; background: #FBF8F1; border-top: 1px solid var(--line); font-size: 15px; font-weight: 700; }
+  .catsum { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 10px 14px 12px; background: #FBF8F1; font-size: 12.5px; color: var(--muted); }
 
-  .total {
-    display: flex;
-    justify-content: space-between;
-    padding: 13px 14px;
-    background: #FBF8F1;
-    border-top: 1px solid var(--line);
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  /* ── 정산 ────────────────────────────────── */
-  .settle {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 4px 15px 12px;
-  }
-  .bal {
-    display: flex;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--line-soft);
-    font-size: 14px;
-  }
-  .bal:last-of-type { border-bottom: 0; }
+  .settle { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 15px 12px; }
+  .bal { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; gap: 10px; }
   .bal .plus { color: var(--green); font-weight: 600; }
   .bal .minus { color: var(--rust); font-weight: 600; }
-  .transfer {
-    margin-top: 10px;
-    padding: 11px 12px;
-    background: #FDF6E7;
-    border: 1px solid #F0DFB8;
-    border-radius: 10px;
-    font-size: 14.5px;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .transfer b { font-weight: 700; }
+  .bal .sub { color: var(--muted); font-size: 12px; display: block; }
+  .transfer { margin-top: 10px; padding: 11px 12px; background: var(--amber-soft); border: 1px solid #F0DFB8; border-radius: 10px; font-size: 14.5px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .transfer.done { background: var(--green-soft); border-color: #CFDED4; color: var(--muted); text-decoration: line-through; }
+  .transfer button { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 5px 9px; font-size: 12.5px; color: var(--ink); white-space: nowrap; text-decoration: none; }
+  .transfer.done button { color: var(--green); }
 
-  /* ── 사람 칩 ─────────────────────────────── */
   .chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip {
-    background: #E7EFE9;
-    border: 1px solid #CFDED4;
-    color: var(--pine);
-    border-radius: 999px;
-    padding: 5px 11px;
-    font-size: 13.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
+  .chip { background: var(--green-soft); border: 1px solid #CFDED4; color: var(--pine); border-radius: 999px; padding: 5px 11px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; }
   .chip button { background: none; border: 0; color: #7C8F84; padding: 0; font-size: 14px; line-height: 1; }
+  .chip.sugg { background: transparent; border-style: dashed; color: var(--muted); cursor: pointer; }
+  .split-chip { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; }
+  .split-chip.on { background: var(--pine); border-color: var(--pine); color: var(--paper); }
 
-  /* ── 폼 ─────────────────────────────────── */
-  .form {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 10px;
-  }
+  .check { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px; }
+  .check:last-of-type { border-bottom: 0; }
+  .check .box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line); background: #fff; flex-shrink: 0; display: grid; place-items: center; font-size: 13px; padding: 0; }
+  .check.done .box { background: var(--green); border-color: var(--green); color: #fff; }
+  .check.done .txt { color: var(--muted); text-decoration: line-through; }
+  .check .txt { flex: 1; }
+  .check .who { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .check .del { background: none; border: 0; color: #A9A398; font-size: 16px; padding: 0 2px; }
+
+  .form { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 10px; }
+  .form.hl { border-color: var(--amber); }
   .field { margin-bottom: 10px; }
-  .field label {
-    display: block;
-    font-size: 12.5px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .field input, .field select, .field textarea {
-    width: 100%;
-    padding: 10px 11px;
-    border: 1px solid var(--line);
-    border-radius: 9px;
-    font-size: 15px;
-    background: #FFFDF8;
-    color: var(--ink);
-  }
+  .field label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .field input, .field select, .field textarea, .inp { width: 100%; padding: 10px 11px; border: 1px solid var(--line); border-radius: 9px; font-size: 15px; background: #FFFDF8; color: var(--ink); }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: -6px; margin-bottom: 10px; }
 
-  .btn {
-    width: 100%;
-    padding: 12px;
-    border: 0;
-    border-radius: 10px;
-    background: var(--amber);
-    color: #2A1D05;
-    font-size: 15px;
-    font-weight: 700;
-  }
-  .btn.ghost {
-    background: transparent;
-    border: 1px dashed #C6BCA6;
-    color: var(--muted);
-    font-weight: 500;
-  }
-  .btn.quiet {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    font-weight: 500;
-  }
+  .btn { width: 100%; padding: 12px; border: 0; border-radius: 10px; background: var(--amber); color: #2A1D05; font-size: 15px; font-weight: 700; }
+  .btn.ghost { background: transparent; border: 1px dashed #C6BCA6; color: var(--muted); font-weight: 500; }
+  .btn.quiet { background: transparent; border: 1px solid var(--line); color: var(--muted); font-weight: 500; }
   .btn.danger { background: transparent; border: 1px solid #E0C4BB; color: var(--rust); font-weight: 500; }
+  .btn.sm { width: auto; padding: 9px 13px; font-size: 13.5px; }
   .btn + .btn { margin-top: 8px; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btnrow .btn { width: auto; flex: 1; margin: 0; }
+  .link { background: none; border: 0; color: var(--muted); font-size: 13.5px; padding: 0; }
+  .link.strong { color: var(--amber-dark); font-weight: 600; }
+  .back { background: none; border: 0; color: var(--muted); font-size: 14px; padding: 0 0 10px; }
 
-  .back {
-    background: none;
-    border: 0;
-    color: var(--muted);
-    font-size: 14px;
-    padding: 0 0 10px;
-  }
-
-  .empty {
-    text-align: center;
-    padding: 34px 20px;
-    color: var(--muted);
-    font-size: 14.5px;
-    border: 1px dashed #CFC7B3;
-    border-radius: 14px;
-  }
+  .empty { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14.5px; border: 1px dashed #CFC7B3; border-radius: 14px; }
   .note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
-  .warn {
-    font-size: 12.5px;
-    color: #7A5B1E;
-    background: #FDF6E7;
-    border: 1px solid #F0DFB8;
-    border-radius: 9px;
-    padding: 9px 11px;
-    margin-top: 12px;
-  }
-  .err {
-    font-size: 13px;
-    color: var(--rust);
-    background: #FBEDE9;
-    border: 1px solid #E8CEC5;
-    border-radius: 9px;
-    padding: 9px 11px;
-    margin-bottom: 10px;
-  }
-  .hidden { display: none; }
+  .warn { font-size: 12.5px; color: #7A5B1E; background: var(--amber-soft); border: 1px solid #F0DFB8; border-radius: 9px; padding: 9px 11px; margin-top: 12px; }
+  .err { font-size: 13px; color: var(--rust); background: #FBEDE9; border: 1px solid #E8CEC5; border-radius: 9px; padding: 9px 11px; margin-bottom: 10px; white-space: pre-wrap; }
+  .err code { font-size: 12px; display: block; background: #fff; padding: 8px; border-radius: 6px; margin-top: 6px; color: var(--ink); white-space: pre; overflow-x: auto; }
+  .skel { height: 84px; border-radius: 14px; background: linear-gradient(90deg, #EEE9DD 25%, #F6F2E9 50%, #EEE9DD 75%); background-size: 200% 100%; margin-bottom: 10px; }
+  @media (prefers-reduced-motion: no-preference) { .skel { animation: sh 1.2s infinite; } }
+  @keyframes sh { from { background-position: 200% 0 } to { background-position: -200% 0 } }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .trip { transition: border-color .15s ease; }
-  }
+  .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 11px 14px; border-radius: 12px; font-size: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); max-width: calc(100% - 32px); z-index: 50; }
+  .toast button { background: none; border: 0; color: var(--amber); font-weight: 700; font-size: 14px; padding: 0; white-space: nowrap; }
+  .hidden { display: none !important; }
+  details.settings summary { cursor: pointer; color: var(--muted); font-size: 13.5px; list-style: none; }
+  details.settings summary::-webkit-details-marker { display: none; }
 </style>
 
 <div class="app">
@@ -307,480 +148,734 @@
     </div>
   </div>
   <div class="wrap" id="root"></div>
+  <div id="toast" class="toast hidden"></div>
+  <input type="file" id="importFile" accept="application/json,.json" class="hidden">
 </div>
 
 <script>
 (function () {
-  // ── Supabase 설정 ──────────────────────────
-  var SUPA_URL = 'https://qtsxkujwynzzrrbldtew.supabase.co';
-  var SUPA_KEY = 'sb_publishable_-_vXcrklcqKbxsHB58TNXg_X8UwsMMv';
-  var TABLE = 'camp_trips';
-  var ME_KEY = 'camp_me_name';
+  'use strict';
 
-  function api(path, opts) {
-    opts = opts || {};
+  // ── Supabase 설정 ─────────────────────────────
+  const SUPA_URL = 'https://qtsxkujwynzzrrbldtew.supabase.co';
+  const SUPA_KEY = 'sb_publishable_-_vXcrklcqKbxsHB58TNXg_X8UwsMMv';
+  const TABLE = 'camp_trips';
+  const ME_KEY = 'camp_me_name';
+  const MIGRATION_SQL =
+`alter table camp_trips add column if not exists meta jsonb not null default '{}'::jsonb;
+alter table camp_trips add column if not exists version integer not null default 0;`;
+
+  const CATS = [
+    { k: 'food',  e: '🥩', n: '식재료' },
+    { k: 'drink', e: '🍺', n: '주류·음료' },
+    { k: 'gear',  e: '⛺', n: '장비·소모품' },
+    { k: 'site',  e: '🏕️', n: '캠핑장·이용료' },
+    { k: 'etc',   e: '🚗', n: '교통·기타' }
+  ];
+  const catOf = k => CATS.find(c => c.k === k) || CATS[4];
+
+  class ConflictError extends Error {}
+  class MigrationError extends Error {}
+
+  function api(path, opts = {}) {
     return fetch(SUPA_URL + '/rest/v1/' + path, {
       method: opts.method || 'GET',
       headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': opts.prefer || 'return=minimal'
+        'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json', 'Prefer': opts.prefer || 'return=minimal'
       },
       body: opts.body ? JSON.stringify(opts.body) : undefined
-    }).then(function (r) {
-      if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ' ' + t); });
-      return r.status === 204 ? null : r.json().catch(function () { return null; });
+    }).then(async r => {
+      if (!r.ok) {
+        const t = await r.text();
+        if (/PGRST204|column .*(meta|version)/i.test(t)) throw new MigrationError(t);
+        throw new Error(r.status + ' ' + t);
+      }
+      if (r.status === 204) return null;
+      return r.json().catch(() => null);
     });
   }
+  const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
 
-  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
-  function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
-
-  var state = {
-    me: '',
-    trips: [],
+  // ── 상태 ─────────────────────────────────────
+  const state = {
+    me: '', trips: [], loading: true, error: '', migrationNeeded: false,
     view: { name: 'list', id: null },
-    adding: false,
-    editingTrip: false,
-    editingItem: null,
-    loading: true,
-    error: ''
+    year: 'all', adding: false,
+    editingTrip: false, editingItemId: null, addingItem: false,
+    lastDeleted: null
   };
+  const root = document.getElementById('root');
+  let toastTimer = null;
 
-  var root = document.getElementById('root');
-
-  /* ── 유틸 ─────────────────────────────── */
-  function won(n) {
-    return new Intl.NumberFormat('ko-KR').format(Math.round(n)) + '원';
-  }
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
-  function uid() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-  }
-  function fmtDate(d) {
-    if (!d) return '';
-    var p = d.split('-');
-    return p[0] + '.' + p[1] + '.' + p[2];
-  }
+  // ── 유틸 ─────────────────────────────────────
+  const won = n => new Intl.NumberFormat('ko-KR').format(Math.round(n || 0)) + '원';
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  const fmtDate = d => d ? d.split('-').join('.') : '';
   function dateRange(a, b) {
     if (!a) return '날짜 미정';
     if (!b || b === a) return fmtDate(a);
-    var pa = a.split('-'), pb = b.split('-');
+    const pa = a.split('-'), pb = b.split('-');
     if (pa[0] === pb[0] && pa[1] === pb[1]) return fmtDate(a) + '–' + pb[2];
     return fmtDate(a) + ' – ' + fmtDate(b);
   }
-  function normUrl(u) {
-    u = (u || '').trim();
-    if (!u) return '';
-    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
-    return u;
+  function nights(a, b) {
+    if (!a || !b) return null;
+    const n = Math.round((new Date(b) - new Date(a)) / 86400000);
+    return n > 0 ? n : null;
   }
-  function tripTotal(t) {
-    return (t.items || []).reduce(function (s, i) { return s + (Number(i.cost) || 0); }, 0);
-  }
+  const normUrl = u => { u = (u || '').trim(); if (!u) return ''; if (!/^https?:\/\//i.test(u)) u = 'https://' + u; return u; };
+  const domainOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return '링크'; } };
+  const tripTotal = t => (t.items || []).reduce((s, i) => s + (Number(i.cost) || 0), 0);
+  const yearOf = t => (t.startDate || '').slice(0, 4) || '날짜 없음';
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const currentTrip = () => state.trips.find(x => x.id === state.view.id);
 
-  /* ── 저장소 (Supabase) ──────────────────── */
+  // ── 저장소 ────────────────────────────────────
   function rowToTrip(r) {
+    const t = {
+      id: r.id, place: r.place || '', startDate: r.start_date || '', endDate: r.end_date || '',
+      members: Array.isArray(r.members) ? r.members : [],
+      items: (Array.isArray(r.items) ? r.items : []).map(i => Object.assign({ id: uid(), category: 'food', split: null }, i)),
+      note: r.note || '', meta: (r.meta && typeof r.meta === 'object') ? r.meta : {},
+      version: Number(r.version) || 0, updatedAt: r.updated_at
+    };
+    t.meta.checklist = Array.isArray(t.meta.checklist) ? t.meta.checklist : [];
+    t.meta.settled = t.meta.settled && typeof t.meta.settled === 'object' ? t.meta.settled : {};
+    return t;
+  }
+  function tripToRow(t, version) {
     return {
-      id: r.id, place: r.place,
-      startDate: r.start_date || '', endDate: r.end_date || '',
-      members: r.members || [], items: r.items || [],
-      note: r.note || '', updatedAt: r.updated_at
+      id: t.id, place: t.place, start_date: t.startDate || null, end_date: t.endDate || null,
+      members: t.members || [], items: t.items || [], note: t.note || '',
+      meta: t.meta || {}, version: version, updated_at: new Date().toISOString()
     };
   }
-  function tripToRow(t) {
-    return {
-      id: t.id, place: t.place,
-      start_date: t.startDate || null, end_date: t.endDate || null,
-      members: t.members || [], items: t.items || [],
-      note: t.note || '', updated_at: new Date().toISOString()
-    };
-  }
-  function loadMe() {
-    var v = lsGet(ME_KEY);
-    if (v) state.me = v;
-    return Promise.resolve();
-  }
-  function saveMe(name) {
-    state.me = name;
-    lsSet(ME_KEY, name);
-    return Promise.resolve();
-  }
+  function loadMe() { const v = lsGet(ME_KEY); if (v) state.me = v; }
+  function saveMe(name) { state.me = name; lsSet(ME_KEY, name); }
+
   async function loadTrips() {
-    var rows = await api(TABLE + '?select=*&order=start_date.desc', { prefer: 'return=representation' });
+    const rows = await api(TABLE + '?select=*&order=start_date.desc.nullslast', { prefer: 'return=representation' });
     state.trips = (rows || []).map(rowToTrip);
+    state.migrationNeeded = rows && rows.length ? !('meta' in rows[0]) : state.migrationNeeded;
+  }
+  async function reloadTrip(id) {
+    const rows = await api(TABLE + '?select=*&id=eq.' + encodeURIComponent(id), { prefer: 'return=representation' });
+    const idx = state.trips.findIndex(t => t.id === id);
+    if (rows && rows[0]) { const fresh = rowToTrip(rows[0]); if (idx >= 0) state.trips[idx] = fresh; else state.trips.push(fresh); }
+    else if (idx >= 0) state.trips.splice(idx, 1);
   }
   async function saveTrip(t) {
-    await api(TABLE + '?on_conflict=id', {
-      method: 'POST',
-      prefer: 'resolution=merge-duplicates,return=minimal',
-      body: [tripToRow(t)]
-    });
+    if (t._new) {
+      await api(TABLE, { method: 'POST', prefer: 'return=minimal', body: [tripToRow(t, 0)] });
+      t._new = false; t.version = 0; return;
+    }
+    const cur = t.version || 0;
+    const rows = await api(TABLE + '?id=eq.' + encodeURIComponent(t.id) + '&version=eq.' + cur,
+      { method: 'PATCH', prefer: 'return=representation', body: tripToRow(t, cur + 1) });
+    if (!rows || !rows.length) throw new ConflictError();
+    t.version = cur + 1;
   }
   async function removeTrip(id) {
     await api(TABLE + '?id=eq.' + encodeURIComponent(id), { method: 'DELETE' });
-    state.trips = state.trips.filter(function (t) { return t.id !== id; });
+    state.trips = state.trips.filter(t => t.id !== id);
   }
 
-  /* ── 1/N 정산 계산 ───────────────────────── */
+  // ── 정산 계산 (항목별 분담 반영) ──────────────
   function settle(trip) {
-    var members = (trip.members || []).slice();
-    var items = trip.items || [];
-    var total = tripTotal(trip);
-
-    // 명단에 없는 결제자도 정산 대상에 포함
-    items.forEach(function (i) {
-      if (i.payer && members.indexOf(i.payer) === -1) members.push(i.payer);
+    const members = (trip.members || []).slice();
+    const items = trip.items || [];
+    items.forEach(i => {
+      if (i.payer && !members.includes(i.payer)) members.push(i.payer);
+      (i.split || []).forEach(n => { if (!members.includes(n)) members.push(n); });
     });
-    if (!members.length || !total) {
-      return { members: members, total: total, share: 0, balances: [], transfers: [] };
-    }
-
-    var share = total / members.length;
-    var paid = {};
-    members.forEach(function (m) { paid[m] = 0; });
-    items.forEach(function (i) {
-      if (i.payer) paid[i.payer] = (paid[i.payer] || 0) + (Number(i.cost) || 0);
+    const total = tripTotal(trip);
+    const paid = {}, owe = {};
+    members.forEach(m => { paid[m] = 0; owe[m] = 0; });
+    const byCat = {};
+    items.forEach(i => {
+      const cost = Number(i.cost) || 0;
+      byCat[i.category || 'etc'] = (byCat[i.category || 'etc'] || 0) + cost;
+      if (i.payer) paid[i.payer] += cost;
+      let parts = (i.split && i.split.length) ? i.split.filter(n => members.includes(n)) : members;
+      if (!parts.length) parts = members;
+      parts.forEach(p => { owe[p] += cost / parts.length; });
     });
-
-    var balances = members.map(function (m) {
-      return { name: m, paid: paid[m], balance: paid[m] - share };
-    });
-
-    // 최소 송금 횟수 그리디 매칭
-    var cred = balances.filter(function (b) { return b.balance > 0.5; })
-      .map(function (b) { return { name: b.name, amt: b.balance }; })
-      .sort(function (a, b) { return b.amt - a.amt; });
-    var debt = balances.filter(function (b) { return b.balance < -0.5; })
-      .map(function (b) { return { name: b.name, amt: -b.balance }; })
-      .sort(function (a, b) { return b.amt - a.amt; });
-
-    var transfers = [], ci = 0, di = 0, guard = 0;
-    while (ci < cred.length && di < debt.length && guard++ < 200) {
-      var amt = Math.min(cred[ci].amt, debt[di].amt);
-      if (amt > 0.5) transfers.push({ from: debt[di].name, to: cred[ci].name, amt: amt });
-      cred[ci].amt -= amt;
-      debt[di].amt -= amt;
+    const balances = members.map(m => ({ name: m, paid: paid[m], owe: owe[m], balance: paid[m] - owe[m] }));
+    const cred = balances.filter(b => b.balance > 0.5).map(b => ({ name: b.name, amt: b.balance })).sort((a, b) => b.amt - a.amt);
+    const debt = balances.filter(b => b.balance < -0.5).map(b => ({ name: b.name, amt: -b.balance })).sort((a, b) => b.amt - a.amt);
+    const transfers = []; let ci = 0, di = 0, g = 0;
+    while (ci < cred.length && di < debt.length && g++ < 500) {
+      const amt = Math.min(cred[ci].amt, debt[di].amt);
+      if (amt > 0.5) transfers.push({ from: debt[di].name, to: cred[ci].name, amt, key: debt[di].name + '|' + cred[ci].name });
+      cred[ci].amt -= amt; debt[di].amt -= amt;
       if (cred[ci].amt <= 0.5) ci++;
       if (debt[di].amt <= 0.5) di++;
     }
-    return { members: members, total: total, share: share, balances: balances, transfers: transfers };
+    const settled = trip.meta && trip.meta.settled || {};
+    const allSettled = transfers.length > 0 && transfers.every(tr => settled[tr.key]);
+    return { members, total, byCat, balances, transfers, allSettled,
+      perHead: members.length ? total / members.length : 0 };
   }
 
-  /* ── 화면: 목록 ──────────────────────────── */
-  function renderList() {
-    var h = '';
-    if (state.error) h += '<div class="err">' + esc(state.error) + '</div>';
+  function shareText(t, s) {
+    const lines = [];
+    lines.push('🏕 ' + (t.place || '캠핑') + ' (' + dateRange(t.startDate, t.endDate) + ')');
+    lines.push('총 ' + won(s.total) + ' · ' + s.members.length + '명');
+    lines.push('');
+    lines.push('[부담액]');
+    s.balances.forEach(b => lines.push('· ' + b.name + ' ' + won(b.owe) + ' (결제 ' + won(b.paid) + ')'));
+    lines.push('');
+    if (s.transfers.length) {
+      lines.push('[송금]');
+      s.transfers.forEach(tr => lines.push('· ' + tr.from + ' → ' + tr.to + ' ' + won(tr.amt) + ((t.meta.settled || {})[tr.key] ? ' ✅' : '')));
+    } else lines.push('송금할 것 없음 — 딱 맞음');
+    return lines.join('\n');
+  }
 
-    if (state.loading) {
-      h += '<div class="empty">기록을 불러오는 중…</div>';
-      return h;
+  // 모든 캠핑에서 등장한 이름 (빈도순) — 참가자 빠른 추가용
+  function knownNames(exclude) {
+    const cnt = {};
+    state.trips.forEach(t => (t.members || []).forEach(m => { cnt[m] = (cnt[m] || 0) + 1; }));
+    return Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).filter(n => !(exclude || []).includes(n));
+  }
+
+  // ── 화면: 목록 ───────────────────────────────
+  function renderList() {
+    let h = '';
+    if (state.migrationNeeded) h += migrationBox();
+    if (state.error) h += `<div class="err">${esc(state.error)}</div>`;
+    if (state.loading) return h + '<div class="skel"></div><div class="skel"></div><div class="skel"></div>';
+
+    const years = Array.from(new Set(state.trips.map(yearOf))).sort().reverse();
+    const shown = state.year === 'all' ? state.trips : state.trips.filter(t => yearOf(t) === state.year);
+
+    if (state.trips.length) {
+      const total = shown.reduce((a, t) => a + tripTotal(t), 0);
+      const nightsSum = shown.reduce((a, t) => a + (nights(t.startDate, t.endDate) || 0), 0);
+      const placeCnt = {}; shown.forEach(t => { placeCnt[t.place] = (placeCnt[t.place] || 0) + 1; });
+      const topPlace = Object.keys(placeCnt).sort((a, b) => placeCnt[b] - placeCnt[a])[0] || '-';
+      h += `<div class="stats">
+        <div class="stat"><div class="k">캠핑</div><div class="v num">${shown.length}회 · ${nightsSum}박</div></div>
+        <div class="stat"><div class="k">총 지출</div><div class="v num">${won(total)}</div></div>
+        <div class="stat"><div class="k">회당 평균</div><div class="v num">${won(shown.length ? total / shown.length : 0)}</div></div>
+      </div>`;
+      if (years.length > 1) {
+        h += '<div class="filters">' +
+          `<button class="pill ${state.year === 'all' ? 'on' : ''}" data-act="year" data-y="all">전체</button>` +
+          years.map(y => `<button class="pill ${state.year === y ? 'on' : ''}" data-act="year" data-y="${esc(y)}">${esc(y)}</button>`).join('') +
+          '</div>';
+      }
+      if (topPlace !== '-' && placeCnt[topPlace] > 1) h += `<div class="note" style="margin:-4px 0 12px">가장 자주 간 곳: ${esc(topPlace)} (${placeCnt[topPlace]}회)</div>`;
     }
 
     if (!state.trips.length && !state.adding) {
       h += '<div class="empty">아직 기록이 없어요.<br>다녀온 캠핑을 하나 추가해 보세요.</div>';
     }
 
-    state.trips.forEach(function (t) {
-      var n = ((t.members || []).length) || 0;
-      h += '<button class="trip" data-act="open" data-id="' + t.id + '">' +
-        '<div class="date num">' + esc(dateRange(t.startDate, t.endDate)) + '</div>' +
-        '<div class="place">' + esc(t.place || '이름 없는 캠핑장') + '</div>' +
-        '<div class="meta"><span>' + (n ? n + '명 · ' : '') +
-        ((t.items || []).length) + '개 항목</span>' +
-        '<span class="cost num">' + won(tripTotal(t)) + '</span></div>' +
-        '</button>';
+    let lastYear = null;
+    shown.forEach(t => {
+      const y = yearOf(t);
+      if (state.year === 'all' && y !== lastYear) {
+        const ySum = shown.filter(x => yearOf(x) === y).reduce((a, x) => a + tripTotal(x), 0);
+        h += `<div class="yearhead"><span>${esc(y)}</span><span class="num">${won(ySum)}</span></div>`;
+        lastYear = y;
+      }
+      const s = settle(t);
+      const n = nights(t.startDate, t.endDate);
+      const badge = !t.items.length ? '' : s.transfers.length === 0 ? '<span class="badge">정산 없음</span>'
+        : s.allSettled ? '<span class="badge">정산 완료</span>' : '<span class="badge warn">정산 미완</span>';
+      h += `<button class="trip" data-act="open" data-id="${esc(t.id)}">
+        <div class="date num"><span>${esc(dateRange(t.startDate, t.endDate))}${n ? ' · ' + n + '박' : ''}</span>${badge}</div>
+        <div class="place">${esc(t.place || '이름 없는 캠핑장')}</div>
+        <div class="meta"><span>${t.members.length ? t.members.length + '명 · ' : ''}${t.items.length}개 항목${t.meta.site ? ' · ' + esc(t.meta.site) : ''}</span>
+        <span class="cost num">${won(tripTotal(t))}</span></div>
+      </button>`;
     });
 
     if (state.adding) {
-      h += '<div class="form">' +
-        '<div class="field"><label for="f_place">캠핑장 이름</label>' +
-        '<input id="f_place" placeholder="예: 태안 몽산포오토캠핑장"></div>' +
-        '<div class="two">' +
-          '<div class="field"><label for="f_start">시작일</label><input id="f_start" type="date"></div>' +
-          '<div class="field"><label for="f_end">종료일</label><input id="f_end" type="date"></div>' +
-        '</div>' +
-        '<div class="field"><label for="f_members">함께 간 사람 (쉼표로 구분)</label>' +
-        '<input id="f_members" placeholder="관식, 지훈, 민서" value="' + esc(state.me) + '"></div>' +
-        '<div class="field"><label for="f_note">메모</label>' +
-        '<input id="f_note" placeholder="갯벌 조개잡이, 물놀이터 있음"></div>' +
-        '<button class="btn" data-act="createTrip">캠핑 추가</button>' +
-        '<button class="btn quiet" data-act="cancelAdd">취소</button>' +
-      '</div>';
+      const sugg = knownNames([state.me]);
+      h += `<div class="form hl">
+        <div class="field"><label for="f_place">캠핑장 이름</label><input id="f_place" placeholder="예: 신두57"></div>
+        <div class="two">
+          <div class="field"><label for="f_start">시작일</label><input id="f_start" type="date" value="${today()}"></div>
+          <div class="field"><label for="f_end">종료일</label><input id="f_end" type="date"></div>
+        </div>
+        <div class="field"><label for="f_members">함께 간 사람 (쉼표로 구분)</label><input id="f_members" placeholder="관식, 지훈네, 민서네" value="${esc(state.me)}"></div>
+        ${sugg.length ? `<div class="chips" style="margin:-4px 0 12px">${sugg.slice(0, 8).map(n => `<button type="button" class="chip sugg" data-act="suggMember" data-n="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>` : ''}
+        <div class="field"><label for="f_note">메모</label><input id="f_note" placeholder="갯벌 조개잡이, 물놀이터 있음"></div>
+        <button class="btn" data-act="createTrip">캠핑 추가</button>
+        <button class="btn quiet" data-act="cancelAdd">취소</button>
+      </div>`;
     } else {
-      h += '<button class="btn ghost" data-act="startAdd">+ 캠핑 추가</button>';
-      h += '<button class="btn quiet" data-act="refresh">새로고침</button>';
-      h += '<div class="warn">모임 사람 모두가 같은 기록을 봅니다. 다른 사람이 방금 적은 건 새로고침해야 보여요. 링크를 아는 사람은 누구나 고칠 수 있으니 계좌번호는 적지 마세요.</div>';
+      h += '<button class="btn ghost" data-act="startAdd" style="margin-top:6px">+ 캠핑 추가</button>';
+      h += '<div class="btnrow" style="margin-top:8px"><button class="btn quiet" data-act="refresh">새로고침</button></div>';
+      h += `<details class="settings" style="margin-top:22px"><summary>백업 · 설정 ▾</summary>
+        <div class="card" style="margin-top:8px">
+          <div class="note" style="margin:0 0 10px">무료 플랜은 자동 백업이 없습니다. 가끔 내보내기로 파일을 받아 두세요.</div>
+          <div class="btnrow">
+            <button class="btn quiet" data-act="exportJson">JSON 백업</button>
+            <button class="btn quiet" data-act="exportCsv">엑셀용 CSV</button>
+            <button class="btn quiet" data-act="importJson">백업 불러오기</button>
+          </div>
+        </div></details>`;
+      h += '<div class="warn">모임 사람 모두가 같은 기록을 봅니다. 링크를 아는 사람은 누구나 고칠 수 있으니 계좌번호 같은 개인정보는 적지 마세요.</div>';
     }
     return h;
   }
 
-  /* ── 화면: 캠핑 상세 ──────────────────────── */
+  function migrationBox() {
+    return `<div class="err">테이블에 새 컬럼이 필요합니다. Supabase → SQL Editor에서 아래를 한 번 실행해 주세요. 기존 데이터는 그대로 유지됩니다.<code>${esc(MIGRATION_SQL)}</code><button class="link strong" data-act="copySql" style="margin-top:8px">SQL 복사</button></div>`;
+  }
+
+  // ── 화면: 캠핑 상세 ──────────────────────────
   function renderTrip() {
-    var t = state.trips.filter(function (x) { return x.id === state.view.id; })[0];
+    const t = currentTrip();
     if (!t) { state.view = { name: 'list' }; return renderList(); }
+    const s = settle(t);
+    const m = t.meta;
+    let h = '<button class="back" data-act="back">← 전체 기록</button>';
+    if (state.migrationNeeded) h += migrationBox();
+    if (state.error) h += `<div class="err">${esc(state.error)}</div>`;
 
-    var s = settle(t);
-    var h = '<button class="back" data-act="back">← 전체 기록</button>';
-    if (state.error) h += '<div class="err">' + esc(state.error) + '</div>';
-
+    // 헤더 / 캠핑장 정보
     if (state.editingTrip) {
-      h += '<div class="form" style="margin-top:0">' +
-        '<div class="field"><label for="f_place">캠핑장 이름</label>' +
-        '<input id="f_place" value="' + esc(t.place) + '"></div>' +
-        '<div class="two">' +
-          '<div class="field"><label for="f_start">시작일</label><input id="f_start" type="date" value="' + esc(t.startDate) + '"></div>' +
-          '<div class="field"><label for="f_end">종료일</label><input id="f_end" type="date" value="' + esc(t.endDate) + '"></div>' +
-        '</div>' +
-        '<div class="field"><label for="f_note">메모</label>' +
-        '<input id="f_note" value="' + esc(t.note) + '"></div>' +
-        '<button class="btn" data-act="saveTripEdit">저장</button>' +
-        '<button class="btn quiet" data-act="cancelTripEdit">취소</button>' +
-      '</div>';
+      h += `<div class="form hl" style="margin-top:0">
+        <div class="field"><label for="f_place">캠핑장 이름</label><input id="f_place" value="${esc(t.place)}"></div>
+        <div class="two">
+          <div class="field"><label for="f_start">시작일</label><input id="f_start" type="date" value="${esc(t.startDate)}"></div>
+          <div class="field"><label for="f_end">종료일</label><input id="f_end" type="date" value="${esc(t.endDate)}"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="f_site">사이트 번호</label><input id="f_site" value="${esc(m.site)}" placeholder="A-12"></div>
+          <div class="field"><label for="f_power">전기 용량</label><input id="f_power" value="${esc(m.power)}" placeholder="2kW"></div>
+        </div>
+        <div class="field"><label for="f_address">주소</label><input id="f_address" value="${esc(m.address)}" placeholder="충남 태안군 원북면 …"></div>
+        <div class="field"><label for="f_map">지도 링크</label><input id="f_map" inputmode="url" value="${esc(m.mapUrl)}" placeholder="네이버지도·카카오맵 공유 링크"></div>
+        <div class="field"><label for="f_booking">예약 링크</label><input id="f_booking" inputmode="url" value="${esc(m.bookingUrl)}" placeholder="캠핏·땡큐캠핑 등"></div>
+        <div class="field"><label for="f_note">메모</label><textarea id="f_note" rows="3">${esc(t.note)}</textarea></div>
+        <button class="btn" data-act="saveTripEdit">저장</button>
+        <button class="btn quiet" data-act="cancelTripEdit">취소</button>
+      </div>`;
     } else {
-      h += '<div class="rowline"><div>' +
-        '<div class="date num" style="font-size:12.5px;color:var(--muted)">' +
-        esc(dateRange(t.startDate, t.endDate)) + '</div>' +
-        '<h1 style="margin:2px 0 0;font-size:22px;letter-spacing:-.03em">' +
-        esc(t.place || '이름 없는 캠핑장') + '</h1></div>' +
-        '<button class="back" data-act="editTrip" style="padding:0;white-space:nowrap">수정</button></div>';
-      if (t.note) h += '<div class="note">' + esc(t.note) + '</div>';
+      const n = nights(t.startDate, t.endDate);
+      h += `<div class="rowline"><div>
+        <div class="date num" style="font-size:12.5px;color:var(--muted)">${esc(dateRange(t.startDate, t.endDate))}${n ? ' · ' + n + '박 ' + (n + 1) + '일' : ''}</div>
+        <h1 style="margin:2px 0 0;font-size:22px;letter-spacing:-.03em">${esc(t.place || '이름 없는 캠핑장')}</h1></div>
+        <button class="link strong" data-act="editTrip" style="white-space:nowrap">수정</button></div>`;
+      const infos = [];
+      if (m.site) infos.push(['사이트', esc(m.site)]);
+      if (m.power) infos.push(['전기', esc(m.power)]);
+      if (m.address) infos.push(['주소', esc(m.address)]);
+      const links = [];
+      if (m.mapUrl) links.push(`<a href="${esc(normUrl(m.mapUrl))}" target="_blank" rel="noopener">지도 열기</a>`);
+      if (m.bookingUrl) links.push(`<a href="${esc(normUrl(m.bookingUrl))}" target="_blank" rel="noopener">예약 페이지</a>`);
+      if (infos.length || links.length || t.note) {
+        h += '<div class="card" style="margin-top:12px">' +
+          infos.map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('') +
+          (links.length ? `<div class="kv"><span class="k">링크</span><span class="v">${links.join(' · ')}</span></div>` : '') +
+          (t.note ? `<div class="kv"><span class="k">메모</span><span class="v" style="text-align:left;white-space:pre-wrap">${esc(t.note)}</span></div>` : '') +
+          '</div>';
+      }
     }
 
-    h += '<h2 class="sec">함께 간 사람</h2><div class="chips">';
-    (t.members || []).forEach(function (m, i) {
-      h += '<span class="chip">' + esc(m) +
-        '<button data-act="delMember" data-i="' + i + '" aria-label="' + esc(m) + ' 빼기">×</button></span>';
-    });
+    // 참가자
+    const sugg = knownNames(t.members);
+    h += `<h2 class="sec">함께 간 사람 <small>${t.members.length}명</small></h2><div class="chips">`;
+    t.members.forEach((mm, i) => { h += `<span class="chip">${esc(mm)}<button data-act="delMember" data-i="${i}" aria-label="${esc(mm)} 빼기">×</button></span>`; });
+    sugg.slice(0, 6).forEach(nm => { h += `<button type="button" class="chip sugg" data-act="addMemberName" data-n="${esc(nm)}">+ ${esc(nm)}</button>`; });
     h += '</div>';
-    h += '<div class="two" style="margin-top:9px">' +
-      '<input id="m_name" placeholder="이름 추가" style="padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#FFFDF8">' +
-      '<button class="btn quiet" data-act="addMember" style="padding:9px">추가</button></div>';
+    h += `<div class="row" style="margin-top:9px"><input id="m_name" class="inp" placeholder="이름 추가" style="padding:9px 11px;font-size:14px"><button class="btn quiet sm" data-act="addMember">추가</button></div>`;
 
-    h += '<h2 class="sec">산 것</h2>';
-    if (!(t.items || []).length) {
+    // 준비물
+    const cl = m.checklist || [];
+    const doneCnt = cl.filter(c => c.done).length;
+    h += `<h2 class="sec">준비물 <small>${cl.length ? doneCnt + '/' + cl.length : '누가 뭘 가져오는지'}</small></h2>`;
+    h += '<div class="card">';
+    if (!cl.length) h += '<div class="note" style="margin:0">텐트, 버너, 아이스박스처럼 겹치면 안 되는 것부터 적어 보세요.</div>';
+    cl.forEach(c => {
+      h += `<div class="check ${c.done ? 'done' : ''}">
+        <button class="box" data-act="toggleCheck" data-id="${esc(c.id)}" aria-label="완료 표시">${c.done ? '✓' : ''}</button>
+        <span class="txt">${esc(c.text)}</span>
+        ${c.who ? `<span class="who">${esc(c.who)}</span>` : ''}
+        <button class="del" data-act="delCheck" data-id="${esc(c.id)}" aria-label="삭제">×</button>
+      </div>`;
+    });
+    h += `<div class="row" style="margin-top:${cl.length ? 10 : 8}px">
+      <input id="c_text" class="inp" placeholder="준비물" style="padding:9px 11px;font-size:14px">
+      <select id="c_who" class="inp" style="width:auto;padding:9px 8px;font-size:13px"><option value="">담당</option>${s.members.map(nm => `<option value="${esc(nm)}"${nm === state.me ? ' selected' : ''}>${esc(nm)}</option>`).join('')}</select>
+    </div><button class="btn quiet sm" data-act="addCheck" style="margin-top:8px">준비물 추가</button>`;
+    h += '</div>';
+
+    // 산 것
+    h += `<h2 class="sec">산 것 <small>${t.items.length}개</small></h2>`;
+    if (!t.items.length && !state.addingItem) {
       h += '<div class="empty">아직 적은 게 없어요.<br>장 본 것부터 하나씩 넣어 보세요.</div>';
-    } else {
+    } else if (t.items.length) {
       h += '<div class="ledger">';
-      t.items.forEach(function (it, i) {
-        h += '<div class="item">' +
-          '<div class="name">' + esc(it.name) + '</div>' +
-          '<div class="amount num">' + won(it.cost) + '</div>' +
-          '<div class="by">' + (it.payer ? esc(it.payer) + ' 결제' : '결제자 미정') + '</div>' +
-          '<div class="tools">' +
-            (it.url ? '<a href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">구매처</a>' : '') +
-            '<button class="del" data-act="editItem" data-i="' + i + '" style="color:var(--amber-dark)">수정</button>' +
-            '<button class="del" data-act="delItem" data-i="' + i + '">삭제</button>' +
-          '</div>' +
-        '</div>';
+      t.items.forEach(it => {
+        if (state.editingItemId === it.id) { h += itemForm(t, s, it); return; }
+        const c = catOf(it.category);
+        const splitTxt = (it.split && it.split.length && it.split.length !== s.members.length) ? ` · ${it.split.length}명 분담` : '';
+        h += `<div class="item">
+          <div class="name"><span class="cat" title="${c.n}">${c.e}</span>${esc(it.name)}</div>
+          <div class="amount num">${won(it.cost)}</div>
+          <div class="by">${it.payer ? esc(it.payer) + ' 결제' : '결제자 미정'}${splitTxt}</div>
+          <div class="tools">
+            ${it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener noreferrer">${esc(domainOf(it.url))}</a>` : ''}
+            <button class="edit" data-act="editItem" data-id="${esc(it.id)}">수정</button>
+            <button class="del" data-act="delItem" data-id="${esc(it.id)}">삭제</button>
+          </div>
+        </div>`;
       });
-      h += '<div class="total"><span>합계</span><span class="num">' + won(s.total) + '</span></div></div>';
+      const cats = CATS.filter(c => s.byCat[c.k]).map(c => `<span>${c.e} ${c.n} <b class="num" style="color:var(--ink)">${won(s.byCat[c.k])}</b></span>`).join('');
+      if (cats) h += `<div class="catsum">${cats}</div>`;
+      h += `<div class="total"><span>합계</span><span class="num">${won(s.total)}</span></div></div>`;
     }
+    if (state.addingItem) h += `<div class="form hl" style="padding:0;overflow:hidden">${itemForm(t, s, null)}</div>`;
+    else h += '<button class="btn ghost" data-act="startAddItem" style="margin-top:10px">+ 항목 추가</button>';
 
-    var editIdx = state.editingItem;
-    var ed = (editIdx !== null && t.items && t.items[editIdx]) ? t.items[editIdx] : null;
-    var selPayer = ed ? ed.payer : state.me;
-    var payerOpts = (s.members || []).map(function (m) {
-      return '<option value="' + esc(m) + '"' + (m === selPayer ? ' selected' : '') + '>' + esc(m) + '</option>';
-    }).join('');
-
-    h += '<div class="form"' + (ed ? ' style="border-color:var(--amber)"' : '') + '>' +
-      (ed ? '<div class="note" style="margin:0 0 10px;color:var(--amber-dark)">"' + esc(ed.name) + '" 수정 중</div>' : '') +
-      '<div class="field"><label for="i_name">품목</label>' +
-      '<input id="i_name" placeholder="예: 삼겹살 2kg" value="' + (ed ? esc(ed.name) : '') + '"></div>' +
-      '<div class="two">' +
-        '<div class="field"><label for="i_cost">금액 (원)</label>' +
-        '<input id="i_cost" type="number" inputmode="numeric" placeholder="24000" value="' + (ed ? esc(ed.cost) : '') + '"></div>' +
-        '<div class="field"><label for="i_payer">결제한 사람</label>' +
-        '<select id="i_payer"><option value="">선택 안 함</option>' + payerOpts + '</select></div>' +
-      '</div>' +
-      '<div class="field"><label for="i_url">구매처 링크</label>' +
-      '<input id="i_url" inputmode="url" placeholder="쿠팡·마켓컬리 주소 붙여넣기" value="' + (ed ? esc(ed.url) : '') + '"></div>' +
-      (ed
-        ? '<button class="btn" data-act="saveItemEdit">수정 저장</button>' +
-          '<button class="btn quiet" data-act="cancelItemEdit">취소</button>'
-        : '<button class="btn" data-act="addItem">항목 추가</button>') +
-    '</div>';
-
-    h += '<h2 class="sec">정산</h2>';
+    // 정산
+    h += `<h2 class="sec">정산 ${s.allSettled ? '<small style="color:var(--green)">완료 ✓</small>' : ''}</h2>`;
     if (!s.total || !s.members.length) {
-      h += '<div class="empty">항목과 사람을 넣으면 1/N을 계산해요.</div>';
+      h += '<div class="empty">항목과 사람을 넣으면 자동으로 계산해요.</div>';
     } else {
       h += '<div class="settle">';
-      h += '<div class="bal"><span>1인당</span><span class="num" style="font-weight:700">' + won(s.share) + '</span></div>';
-      s.balances.forEach(function (b) {
-        var cls = b.balance > 0.5 ? 'plus' : (b.balance < -0.5 ? 'minus' : '');
-        var txt = b.balance > 0.5 ? '+' + won(b.balance) + ' 받을 돈'
-                : b.balance < -0.5 ? won(-b.balance) + ' 낼 돈' : '정산 끝';
-        h += '<div class="bal"><span>' + esc(b.name) +
-          ' <span style="color:var(--muted);font-size:12.5px">' + won(b.paid) + ' 결제</span></span>' +
-          '<span class="' + cls + ' num">' + txt + '</span></div>';
+      h += `<div class="bal"><span>단순 1/N 기준</span><span class="num" style="font-weight:700">${won(s.perHead)}</span></div>`;
+      s.balances.forEach(b => {
+        const cls = b.balance > 0.5 ? 'plus' : (b.balance < -0.5 ? 'minus' : '');
+        const txt = b.balance > 0.5 ? '+' + won(b.balance) + ' 받을 돈' : b.balance < -0.5 ? won(-b.balance) + ' 낼 돈' : '정산 끝';
+        h += `<div class="bal"><span>${esc(b.name)}<span class="sub num">부담 ${won(b.owe)} · 결제 ${won(b.paid)}</span></span><span class="${cls} num">${txt}</span></div>`;
       });
-      s.transfers.forEach(function (tr) {
-        h += '<div class="transfer"><span><b>' + esc(tr.from) + '</b> → <b>' + esc(tr.to) + '</b></span>' +
-          '<span class="num"><b>' + won(tr.amt) + '</b></span></div>';
+      s.transfers.forEach(tr => {
+        const done = !!(m.settled || {})[tr.key];
+        h += `<div class="transfer ${done ? 'done' : ''}"><span><b>${esc(tr.from)}</b> → <b>${esc(tr.to)}</b> <b class="num">${won(tr.amt)}</b></span>
+          <button data-act="toggleSettled" data-key="${esc(tr.key)}">${done ? '보냄 ✓' : '보냈어요'}</button></div>`;
       });
+      if (!s.transfers.length) h += '<div class="note">딱 맞아서 주고받을 돈이 없어요.</div>';
+      h += `<div class="btnrow" style="margin-top:12px"><button class="btn quiet" data-act="copyShare">정산 내용 복사</button>${navigator.share ? '<button class="btn quiet" data-act="share">공유</button>' : ''}</div>`;
       h += '</div>';
-      h += '<div class="note">전체 금액을 인원수로 똑같이 나눈 값이에요. 항목마다 나눠 낼 사람이 다르면 이 계산은 맞지 않아요.</div>';
+      h += '<div class="note">항목마다 "나눠 낼 사람"을 지정하면 그 사람들끼리만 나눕니다. 지정 안 한 항목은 전원 1/N입니다.</div>';
     }
 
-    h += '<div style="margin-top:26px"><button class="btn danger" data-act="delTrip">이 캠핑 기록 삭제</button></div>';
+    h += `<div class="btnrow" style="margin-top:26px">
+      <button class="btn quiet" data-act="cloneTrip">이 구성으로 새 캠핑</button>
+      <button class="btn danger" data-act="delTrip">기록 삭제</button></div>`;
     return h;
   }
 
-  /* ── 렌더 ────────────────────────────────── */
-  function render() {
-    var sub = document.getElementById('heroSub');
-    var spent = state.trips.reduce(function (a, t) { return a + tripTotal(t); }, 0);
-    sub.textContent = state.loading ? '불러오는 중…'
-      : state.trips.length ? state.trips.length + '번의 캠핑 · 모두 합쳐 ' + won(spent)
-      : '첫 기록을 기다리는 중';
+  // 항목 폼 (신규 / 인라인 수정 공용)
+  function itemForm(t, s, it) {
+    const isEdit = !!it;
+    const d = it || { name: '', cost: '', payer: state.me, url: '', category: 'food', split: null };
+    const splitSel = (d.split && d.split.length) ? d.split : s.members;
+    const payerOpts = s.members.map(nm => `<option value="${esc(nm)}"${nm === d.payer ? ' selected' : ''}>${esc(nm)}</option>`).join('');
+    const catOpts = CATS.map(c => `<option value="${c.k}"${c.k === (d.category || 'food') ? ' selected' : ''}>${c.e} ${c.n}</option>`).join('');
+    return `<div class="item editing" style="display:block">
+      ${isEdit ? `<div class="note" style="margin:0 0 8px;color:var(--amber-dark)">수정 중</div>` : ''}
+      <div class="field"><label>품목</label><input id="i_name" placeholder="예: 삼겹살 2kg" value="${esc(d.name)}"></div>
+      <div class="two">
+        <div class="field"><label>금액 (원)</label><input id="i_cost" type="number" inputmode="numeric" placeholder="24000" value="${esc(d.cost)}"></div>
+        <div class="field"><label>분류</label><select id="i_cat">${catOpts}</select></div>
+      </div>
+      <div class="two">
+        <div class="field"><label>결제한 사람</label><select id="i_payer"><option value="">선택 안 함</option>${payerOpts}</select></div>
+        <div class="field"><label>구매처 링크</label><input id="i_url" inputmode="url" placeholder="쿠팡·컬리 주소" value="${esc(d.url)}"></div>
+      </div>
+      <div class="field"><label>나눠 낼 사람 <span style="color:#A9A398">(탭해서 빼기)</span></label>
+        <div class="chips" id="splitChips">${s.members.map(nm => `<button type="button" class="split-chip ${splitSel.includes(nm) ? 'on' : ''}" data-act="toggleSplit" data-n="${esc(nm)}">${esc(nm)}</button>`).join('')}</div></div>
+      <div class="btnrow">
+        <button class="btn" data-act="${isEdit ? 'saveItemEdit' : 'addItem'}">${isEdit ? '수정 저장' : '추가'}</button>
+        <button class="btn quiet" data-act="${isEdit ? 'cancelItemEdit' : 'cancelAddItem'}">취소</button>
+      </div>
+    </div>`;
+  }
+  function readItemForm(s) {
+    const name = val('i_name'), cost = Number(val('i_cost'));
+    if (!name) throw new Error('품목 이름을 적어 주세요.');
+    if (!cost || cost < 0) throw new Error('금액을 숫자로 적어 주세요.');
+    const on = Array.from(document.querySelectorAll('#splitChips .split-chip.on')).map(b => b.getAttribute('data-n'));
+    const split = (on.length && on.length !== s.members.length) ? on : null;
+    if (on.length === 0) throw new Error('나눠 낼 사람을 한 명 이상 남겨 주세요.');
+    return { name, cost, payer: val('i_payer'), url: normUrl(val('i_url')), category: val('i_cat') || 'etc', split };
+  }
 
-    document.getElementById('whoLabel').textContent = state.me ? state.me + '(으)로 기록 중' : '이름을 정해 주세요';
+  // ── 렌더 ─────────────────────────────────────
+  function render() {
+    const spent = state.trips.reduce((a, t) => a + tripTotal(t), 0);
+    document.getElementById('heroSub').textContent = state.loading ? '불러오는 중…'
+      : state.trips.length ? `${state.trips.length}번의 캠핑 · 모두 합쳐 ${won(spent)}` : '첫 기록을 기다리는 중';
+    document.getElementById('whoLabel').textContent = state.me ? `${state.me}(으)로 기록 중` : '이름을 정해 주세요';
     root.innerHTML = state.view.name === 'trip' ? renderTrip() : renderList();
   }
+  function toast(msg, actionLabel, actionFn) {
+    const el = document.getElementById('toast');
+    el.innerHTML = `<span>${esc(msg)}</span>${actionLabel ? '<button id="toastAct">' + esc(actionLabel) + '</button>' : ''}`;
+    el.classList.remove('hidden');
+    if (actionFn) document.getElementById('toastAct').onclick = () => { el.classList.add('hidden'); actionFn(); };
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.add('hidden'), actionLabel ? 6000 : 2500);
+  }
+  function resetEditing() { state.editingTrip = false; state.editingItemId = null; state.addingItem = false; }
+  const isEditing = () => state.editingTrip || state.editingItemId !== null || state.addingItem || state.adding;
 
-  /* ── 이벤트 ──────────────────────────────── */
-  function val(id) {
-    var el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
-  function currentTrip() {
-    return state.trips.filter(function (x) { return x.id === state.view.id; })[0];
-  }
-  async function guard(fn) {
+  async function guard(fn, t) {
     state.error = '';
     try { await fn(); }
-    catch (e) { state.error = '서버에 저장하지 못했어요. 인터넷 연결을 확인하고 다시 해 보세요.'; }
+    catch (e) {
+      if (e instanceof ConflictError) {
+        state.error = '다른 사람이 방금 이 캠핑을 먼저 수정했어요. 최신 내용으로 다시 불러왔으니 한 번 더 해 주세요.';
+        resetEditing();
+        try { await reloadTrip(t ? t.id : state.view.id); } catch (e2) {}
+      } else if (e instanceof MigrationError) {
+        state.migrationNeeded = true;
+        state.error = 'Supabase 테이블 업데이트가 필요합니다. 위 SQL을 실행한 뒤 다시 시도해 주세요.';
+      } else {
+        state.error = e.message && /적어 주세요|남겨 주세요/.test(e.message) ? e.message : '서버에 저장하지 못했어요. 인터넷 연결을 확인하고 다시 해 보세요.';
+      }
+    }
     render();
   }
 
-  document.getElementById('whoBtn').addEventListener('click', function () {
-    var n = window.prompt('기록에 쓸 이름을 적어 주세요', state.me || '');
+  async function copyText(txt) {
+    try { await navigator.clipboard.writeText(txt); return true; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (e2) {}
+      document.body.removeChild(ta); return ok;
+    }
+  }
+  function download(name, content, type) {
+    const blob = new Blob([content], { type }); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+  }
+  const csvCell = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+
+  // ── 이벤트 ───────────────────────────────────
+  document.getElementById('whoBtn').addEventListener('click', () => {
+    const n = window.prompt('기록에 쓸 이름을 적어 주세요', state.me || '');
     if (n === null) return;
-    n = n.trim();
-    if (n) saveMe(n).then(render);
+    if (n.trim()) { saveMe(n.trim()); render(); }
   });
 
-  document.body.addEventListener('click', function (e) {
-    var el = e.target.closest('[data-act]');
+  document.getElementById('importFile').addEventListener('change', async ev => {
+    const f = ev.target.files[0]; ev.target.value = '';
+    if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      const list = Array.isArray(data) ? data : (data.trips || []);
+      if (!list.length) throw new Error('empty');
+      if (!confirm(`${list.length}건을 불러올까요? 같은 ID의 기록은 백업 내용으로 덮어씁니다.`)) return;
+      await api(TABLE + '?on_conflict=id', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal',
+        body: list.map(t => tripToRow(rowToTrip(Object.assign({}, t, {
+          start_date: t.start_date || t.startDate, end_date: t.end_date || t.endDate, updated_at: t.updated_at || t.updatedAt
+        })), Number(t.version) || 0)) });
+      await loadTrips(); render(); toast(`${list.length}건 불러왔어요`);
+    } catch (e) { state.error = '백업 파일을 읽지 못했어요. 이 앱에서 내보낸 JSON 파일인지 확인해 주세요.'; render(); }
+  });
+
+  document.body.addEventListener('click', ev => {
+    const el = ev.target.closest('[data-act]');
     if (!el || !root.contains(el)) return;
-    var act = el.getAttribute('data-act');
+    const act = el.getAttribute('data-act');
 
-    if (act === 'refresh') {
-      state.loading = true; state.error = ''; render();
-      return guard(async function () { await loadTrips(); state.loading = false; });
+    // 화면 이동 / 필터
+    if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; resetEditing(); return render(); }
+    if (act === 'back') { state.view = { name: 'list' }; state.error = ''; resetEditing(); return render(); }
+    if (act === 'year') { state.year = el.getAttribute('data-y'); return render(); }
+    if (act === 'refresh') { state.loading = true; state.error = ''; render(); return guard(async () => { await loadTrips(); state.loading = false; toast('최신 기록으로 새로고침했어요'); }); }
+    if (act === 'copySql') { copyText(MIGRATION_SQL).then(ok => toast(ok ? 'SQL을 복사했어요' : '복사에 실패했어요')); return; }
+
+    // 백업
+    if (act === 'exportJson') {
+      download(`기린반캠핑_백업_${today()}.json`, JSON.stringify(state.trips.map(t => tripToRow(t, t.version || 0)), null, 2), 'application/json');
+      return toast('JSON 백업 파일을 내려받았어요');
     }
-    if (act === 'startAdd') { state.adding = true; return render(); }
-    if (act === 'cancelAdd') { state.adding = false; return render(); }
-    if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; state.editingItem = null; state.editingTrip = false; return render(); }
-    if (act === 'back') { state.view = { name: 'list' }; state.error = ''; state.editingItem = null; state.editingTrip = false; return render(); }
+    if (act === 'exportCsv') {
+      const rows = [['캠핑장', '시작일', '종료일', '분류', '품목', '금액', '결제자', '나눠낸사람', '구매처']];
+      state.trips.forEach(t => t.items.forEach(i => rows.push([t.place, t.startDate, t.endDate, catOf(i.category).n, i.name, i.cost, i.payer, (i.split || []).join(' '), i.url])));
+      download(`기린반캠핑_항목_${today()}.csv`, '\uFEFF' + rows.map(r => r.map(csvCell).join(',')).join('\r\n'), 'text/csv');
+      return toast('CSV 파일을 내려받았어요');
+    }
+    if (act === 'importJson') { document.getElementById('importFile').click(); return; }
 
+    // 캠핑 추가
+    if (act === 'startAdd') { state.adding = true; state.error = ''; render(); const f = document.getElementById('f_place'); if (f) f.focus(); return; }
+    if (act === 'cancelAdd') { state.adding = false; state.error = ''; return render(); }
+    if (act === 'suggMember') {
+      const inp = document.getElementById('f_members'); const n = el.getAttribute('data-n');
+      const cur = inp.value.split(',').map(x => x.trim()).filter(Boolean);
+      if (!cur.includes(n)) cur.push(n); inp.value = cur.join(', '); return;
+    }
     if (act === 'createTrip') {
-      var place = val('f_place');
+      const place = val('f_place');
       if (!place) { state.error = '캠핑장 이름을 적어 주세요.'; return render(); }
-      var members = val('f_members').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-      var trip = {
-        id: uid(), place: place,
-        startDate: val('f_start'), endDate: val('f_end'),
-        members: members, note: val('f_note'), items: []
-      };
-      return guard(async function () {
+      const members = Array.from(new Set(val('f_members').split(',').map(x => x.trim()).filter(Boolean)));
+      const trip = { id: uid(), _new: true, place, startDate: val('f_start'), endDate: val('f_end'), members, note: val('f_note'),
+        items: [], meta: { checklist: [], settled: {}, createdBy: state.me }, version: 0 };
+      return guard(async () => {
         await saveTrip(trip);
         state.trips.unshift(trip);
-        state.trips.sort(function (a, b) { return (b.startDate || '').localeCompare(a.startDate || ''); });
-        state.adding = false;
+        state.trips.sort((a, b) => (b.startDate || '').localeCompare(a.startDate || ''));
+        state.adding = false; state.year = 'all';
         state.view = { name: 'trip', id: trip.id };
+        toast('캠핑을 추가했어요');
       });
     }
 
-    var t = currentTrip();
+    const t = currentTrip();
     if (!t) return;
 
-    if (act === 'addMember') {
-      var name = val('m_name');
-      if (!name) return;
-      if ((t.members || []).indexOf(name) !== -1) { state.error = '이미 있는 이름이에요.'; return render(); }
-      t.members = (t.members || []).concat([name]);
-      return guard(function () { return saveTrip(t); });
-    }
-
-    if (act === 'delMember') {
-      t.members.splice(Number(el.getAttribute('data-i')), 1);
-      return guard(function () { return saveTrip(t); });
-    }
-
-    if (act === 'addItem') {
-      var iname = val('i_name'), cost = Number(val('i_cost'));
-      if (!iname) { state.error = '품목 이름을 적어 주세요.'; return render(); }
-      if (!cost || cost < 0) { state.error = '금액을 숫자로 적어 주세요.'; return render(); }
-      t.items = (t.items || []).concat([{
-        name: iname, cost: cost, payer: val('i_payer'), url: normUrl(val('i_url'))
-      }]);
-      return guard(function () { return saveTrip(t); });
-    }
-
-    if (act === 'delItem') {
-      t.items.splice(Number(el.getAttribute('data-i')), 1);
-      state.editingItem = null;
-      return guard(function () { return saveTrip(t); });
-    }
-
-    if (act === 'editItem') {
-      state.editingItem = Number(el.getAttribute('data-i'));
-      state.error = '';
-      render();
-      var f = document.getElementById('i_name');
-      if (f) f.scrollIntoView({ block: 'center' });
-      return;
-    }
-    if (act === 'cancelItemEdit') { state.editingItem = null; return render(); }
-    if (act === 'saveItemEdit') {
-      var idx = state.editingItem;
-      if (idx === null || !t.items[idx]) { state.editingItem = null; return render(); }
-      var ename = val('i_name'), ecost = Number(val('i_cost'));
-      if (!ename) { state.error = '품목 이름을 적어 주세요.'; return render(); }
-      if (!ecost || ecost < 0) { state.error = '금액을 숫자로 적어 주세요.'; return render(); }
-      t.items[idx] = { name: ename, cost: ecost, payer: val('i_payer'), url: normUrl(val('i_url')) };
-      state.editingItem = null;
-      return guard(function () { return saveTrip(t); });
-    }
-
+    // 캠핑 수정 / 복제 / 삭제
     if (act === 'editTrip') { state.editingTrip = true; state.error = ''; return render(); }
     if (act === 'cancelTripEdit') { state.editingTrip = false; return render(); }
     if (act === 'saveTripEdit') {
-      var nplace = val('f_place');
+      const nplace = val('f_place');
       if (!nplace) { state.error = '캠핑장 이름을 적어 주세요.'; return render(); }
-      t.place = nplace; t.startDate = val('f_start'); t.endDate = val('f_end'); t.note = val('f_note');
-      state.editingTrip = false;
-      return guard(async function () {
-        await saveTrip(t);
-        state.trips.sort(function (a, b) { return (b.startDate || '').localeCompare(a.startDate || ''); });
+      const patch = { place: nplace, startDate: val('f_start'), endDate: val('f_end'), note: val('f_note') };
+      const metaPatch = { site: val('f_site'), power: val('f_power'), address: val('f_address'), mapUrl: val('f_map'), bookingUrl: val('f_booking') };
+      return guard(async () => {
+        const snap = JSON.stringify([t.place, t.startDate, t.endDate, t.note, t.meta]);
+        Object.assign(t, patch); Object.assign(t.meta, metaPatch);
+        try { await saveTrip(t); } catch (e) { const [p, sd, ed, n, mt] = JSON.parse(snap); Object.assign(t, { place: p, startDate: sd, endDate: ed, note: n, meta: mt }); throw e; }
+        state.trips.sort((a, b) => (b.startDate || '').localeCompare(a.startDate || ''));
+        state.editingTrip = false; toast('저장했어요');
+      }, t);
+    }
+    if (act === 'cloneTrip') {
+      const trip = { id: uid(), _new: true, place: t.place, startDate: '', endDate: '', members: t.members.slice(), note: '', items: [],
+        meta: { checklist: (t.meta.checklist || []).map(c => ({ id: uid(), text: c.text, who: c.who || '', done: false })), settled: {},
+          site: t.meta.site || '', power: t.meta.power || '', address: t.meta.address || '', mapUrl: t.meta.mapUrl || '', bookingUrl: t.meta.bookingUrl || '', createdBy: state.me }, version: 0 };
+      if (!confirm(`"${t.place}" 참가자·준비물·캠핑장 정보를 복사해서 새 캠핑을 만들까요? (지출 항목은 복사하지 않아요)`)) return;
+      return guard(async () => {
+        await saveTrip(trip); state.trips.unshift(trip);
+        state.view = { name: 'trip', id: trip.id }; state.editingTrip = true; toast('날짜를 정해 주세요');
       });
     }
-
     if (act === 'delTrip') {
-      if (!window.confirm('"' + (t.place || '이 캠핑') + '" 기록을 지울까요? 모임 사람들 화면에서도 사라져요.')) return;
-      return guard(async function () {
-        await removeTrip(t.id);
-        state.view = { name: 'list' };
-      });
+      if (!confirm(`"${t.place || '이 캠핑'}" 기록을 지울까요?\n항목 ${t.items.length}개도 함께 지워지고 되돌릴 수 없어요.`)) return;
+      return guard(async () => { await removeTrip(t.id); state.view = { name: 'list' }; toast('기록을 삭제했어요'); });
+    }
+
+    // 참가자
+    if (act === 'addMember' || act === 'addMemberName') {
+      const name = act === 'addMember' ? val('m_name') : el.getAttribute('data-n');
+      if (!name) return;
+      if (t.members.includes(name)) { state.error = '이미 있는 이름이에요.'; return render(); }
+      return guard(async () => { t.members.push(name); try { await saveTrip(t); } catch (e) { t.members.pop(); throw e; } }, t);
+    }
+    if (act === 'delMember') {
+      const i = Number(el.getAttribute('data-i')); const name = t.members[i];
+      const used = t.items.some(it => it.payer === name || (it.split || []).includes(name));
+      if (used && !confirm(`${name}은(는) 결제자나 분담자로 들어간 항목이 있어요. 빼도 정산 계산엔 계속 포함됩니다. 뺄까요?`)) return;
+      return guard(async () => { const [removed] = t.members.splice(i, 1); try { await saveTrip(t); } catch (e) { t.members.splice(i, 0, removed); throw e; } }, t);
+    }
+
+    // 준비물
+    if (act === 'addCheck') {
+      const text = val('c_text'); if (!text) return;
+      const c = { id: uid(), text, who: val('c_who'), done: false };
+      return guard(async () => { t.meta.checklist.push(c); try { await saveTrip(t); } catch (e) { t.meta.checklist.pop(); throw e; } }, t);
+    }
+    if (act === 'toggleCheck' || act === 'delCheck') {
+      const id = el.getAttribute('data-id'); const idx = t.meta.checklist.findIndex(c => c.id === id);
+      if (idx < 0) return;
+      return guard(async () => {
+        const before = JSON.stringify(t.meta.checklist);
+        if (act === 'toggleCheck') t.meta.checklist[idx].done = !t.meta.checklist[idx].done; else t.meta.checklist.splice(idx, 1);
+        try { await saveTrip(t); } catch (e) { t.meta.checklist = JSON.parse(before); throw e; }
+      }, t);
+    }
+
+    // 항목
+    if (act === 'toggleSplit') { el.classList.toggle('on'); return; }
+    if (act === 'startAddItem') { state.addingItem = true; state.editingItemId = null; state.error = ''; render(); const f = document.getElementById('i_name'); if (f) { f.scrollIntoView({ block: 'center' }); f.focus(); } return; }
+    if (act === 'cancelAddItem') { state.addingItem = false; state.error = ''; return render(); }
+    if (act === 'addItem') {
+      const s = settle(t);
+      return guard(async () => {
+        const it = Object.assign({ id: uid(), createdBy: state.me, createdAt: new Date().toISOString() }, readItemForm(s));
+        t.items.push(it);
+        try { await saveTrip(t); } catch (e) { t.items.pop(); throw e; }
+        state.addingItem = false; toast(`${it.name} 추가`);
+      }, t);
+    }
+    if (act === 'editItem') { state.editingItemId = el.getAttribute('data-id'); state.addingItem = false; state.error = ''; render(); const f = document.getElementById('i_name'); if (f) f.scrollIntoView({ block: 'center' }); return; }
+    if (act === 'cancelItemEdit') { state.editingItemId = null; state.error = ''; return render(); }
+    if (act === 'saveItemEdit') {
+      const s = settle(t); const idx = t.items.findIndex(i => i.id === state.editingItemId);
+      if (idx < 0) { state.editingItemId = null; return render(); }
+      return guard(async () => {
+        const before = t.items[idx];
+        t.items[idx] = Object.assign({}, before, readItemForm(s), { editedBy: state.me, editedAt: new Date().toISOString() });
+        try { await saveTrip(t); } catch (e) { t.items[idx] = before; throw e; }
+        state.editingItemId = null; toast('수정했어요');
+      }, t);
+    }
+    if (act === 'delItem') {
+      const idx = t.items.findIndex(i => i.id === el.getAttribute('data-id')); if (idx < 0) return;
+      const removed = t.items[idx];
+      return guard(async () => {
+        t.items.splice(idx, 1);
+        try { await saveTrip(t); } catch (e) { t.items.splice(idx, 0, removed); throw e; }
+        toast(`${removed.name} 삭제`, '되돌리기', () => guard(async () => {
+          t.items.splice(Math.min(idx, t.items.length), 0, removed); await saveTrip(t);
+        }, t));
+      }, t);
+    }
+
+    // 정산
+    if (act === 'toggleSettled') {
+      const key = el.getAttribute('data-key');
+      return guard(async () => {
+        const before = !!t.meta.settled[key];
+        if (before) delete t.meta.settled[key]; else t.meta.settled[key] = true;
+        try { await saveTrip(t); } catch (e) { if (before) t.meta.settled[key] = true; else delete t.meta.settled[key]; throw e; }
+      }, t);
+    }
+    if (act === 'copyShare') { copyText(shareText(t, settle(t))).then(ok => toast(ok ? '정산 내용을 복사했어요. 단톡방에 붙여넣으세요' : '복사에 실패했어요')); return; }
+    if (act === 'share') { navigator.share({ title: t.place, text: shareText(t, settle(t)) }).catch(() => {}); return; }
+  });
+
+  // 엔터로 빠른 추가
+  root.addEventListener('keydown', ev => {
+    if (ev.key !== 'Enter' || ev.target.tagName === 'TEXTAREA') return;
+    const map = { m_name: 'addMember', c_text: 'addCheck', i_name: null, i_cost: null, i_url: null };
+    const id = ev.target.id;
+    if (id in map) {
+      ev.preventDefault();
+      let act = map[id];
+      if (!act) act = state.editingItemId !== null ? 'saveItemEdit' : 'addItem';
+      const btn = root.querySelector(`[data-act="${act}"]`); if (btn) btn.click();
     }
   });
 
-  /* ── 시작 ────────────────────────────────── */
+  // 앱으로 돌아왔을 때 조용히 최신화 (편집 중이면 건너뜀)
+  async function silentRefresh() {
+    if (isEditing() || state.loading || document.hidden) return;
+    try {
+      const before = JSON.stringify(state.trips.map(t => [t.id, t.version]));
+      await loadTrips();
+      if (JSON.stringify(state.trips.map(t => [t.id, t.version])) !== before) { render(); toast('다른 사람의 변경사항을 반영했어요'); }
+    } catch (e) {}
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) silentRefresh(); });
+  setInterval(silentRefresh, 45000);
+
+  // ── 시작 ─────────────────────────────────────
   (async function init() {
-    render();
-    await loadMe();
+    render(); loadMe();
     try { await loadTrips(); }
-    catch (e) { state.error = '서버에서 기록을 불러오지 못했어요. 연결을 확인하고 새로고침해 주세요.'; }
-    state.loading = false;
-    render();
+    catch (e) {
+      if (e instanceof MigrationError) state.migrationNeeded = true;
+      state.error = e instanceof MigrationError ? '' : '서버에서 기록을 불러오지 못했어요. 연결을 확인하고 새로고침해 주세요.';
+    }
+    state.loading = false; render();
+    if (!state.me) setTimeout(() => document.getElementById('whoBtn').click(), 300);
   })();
 })();
 </script>
