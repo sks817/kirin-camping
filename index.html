@@ -66,7 +66,9 @@
   .item .name { font-size: 15px; font-weight: 500; }
   .item .amount { font-size: 15px; font-weight: 600; white-space: nowrap; }
   .item .by { font-size: 12.5px; color: var(--muted); }
-  .item .tools { display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .item .tools { display: flex; gap: 4px; align-items: center; justify-content: flex-end; margin: -6px -8px -6px 0; }
+  .item .tools button { min-height: 36px; padding: 0 8px; border-radius: 8px; }
+  .item .tools button:active { background: var(--line-soft); }
   .item .tools a { font-size: 12.5px; text-decoration: none; border-bottom: 1px solid #EBD3A6; }
   .item .del { background: none; border: 0; color: #A9A398; font-size: 13px; padding: 0; }
   .item .edit { background: none; border: 0; color: var(--amber-dark); font-size: 13px; padding: 0; }
@@ -87,19 +89,22 @@
 
   .chips { display: flex; flex-wrap: wrap; gap: 7px; }
   .chip { background: var(--green-soft); border: 1px solid #CFDED4; color: var(--pine); border-radius: 999px; padding: 5px 11px; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; }
-  .chip button { background: none; border: 0; color: #7C8F84; padding: 0; font-size: 14px; line-height: 1; }
+  .chip button { background: none; border: 0; color: #7C8F84; font-size: 16px; line-height: 1; min-width: 32px; min-height: 32px; margin: -8px -10px -8px -4px; border-radius: 999px; }
+  .chip button:active { background: #CFDED4; }
   .chip.sugg { background: transparent; border-style: dashed; color: var(--muted); cursor: pointer; }
   .split-chip { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; }
   .split-chip.on { background: var(--pine); border-color: var(--pine); color: var(--paper); }
 
   .check { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px; }
   .check:last-of-type { border-bottom: 0; }
-  .check .box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line); background: #fff; flex-shrink: 0; display: grid; place-items: center; font-size: 13px; padding: 0; }
-  .check.done .box { background: var(--green); border-color: var(--green); color: #fff; }
+  .check .box { width: 44px; height: 44px; margin: -11px -11px -11px -11px; border: 0; background: transparent; flex-shrink: 0; display: grid; place-items: center; padding: 0; }
+  .check .box::before { content: attr(data-mark); width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; font-size: 13px; }
+  .check.done .box::before { background: var(--green); border-color: var(--green); color: #fff; }
   .check.done .txt { color: var(--muted); text-decoration: line-through; }
   .check .txt { flex: 1; }
   .check .who { font-size: 12px; color: var(--muted); white-space: nowrap; }
-  .check .del { background: none; border: 0; color: #A9A398; font-size: 16px; padding: 0 2px; }
+  .check .del { background: none; border: 0; color: #A9A398; font-size: 18px; min-width: 44px; min-height: 44px; margin: -11px -14px -11px -8px; border-radius: 999px; }
+  .check .del:active { background: var(--line-soft); }
 
   .form { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 10px; }
   .form.hl { border-color: var(--amber); }
@@ -134,6 +139,18 @@
   .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 11px 14px; border-radius: 12px; font-size: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); max-width: calc(100% - 32px); z-index: 50; }
   .toast button { background: none; border: 0; color: var(--amber); font-weight: 700; font-size: 14px; padding: 0; white-space: nowrap; }
   .hidden { display: none !important; }
+  .sheet-bg { position: fixed; inset: 0; background: rgba(18,33,27,.55); z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
+  .sheet { background: var(--paper); width: 100%; max-width: 640px; border-radius: 18px 18px 0 0; padding: 20px 18px calc(22px + env(safe-area-inset-bottom)); }
+  .sheet h3 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.02em; }
+  .sheet p { margin: 0 0 14px; font-size: 13.5px; color: var(--muted); }
+  .acwrap { position: relative; }
+  .ac { position: absolute; left: 0; right: 0; top: 100%; z-index: 30; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px rgba(0,0,0,.12); overflow: hidden; margin-top: 4px; }
+  .ac button { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 12px; border: 0; background: none; text-align: left; font-size: 14.5px; border-bottom: 1px solid var(--line-soft); min-height: 44px; }
+  .ac button:last-child { border-bottom: 0; }
+  .ac button:active { background: var(--amber-soft); }
+  .ac .m { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .search { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .search input { flex: 1; padding: 9px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; background: #FFFDF8; }
   details.settings summary { cursor: pointer; color: var(--muted); font-size: 13.5px; list-style: none; }
   details.settings summary::-webkit-details-marker { display: none; }
 </style>
@@ -144,7 +161,7 @@
     <div class="sub" id="heroSub">불러오는 중…</div>
     <div class="who">
       <span id="whoLabel">이름을 정해 주세요</span>
-      <button id="whoBtn">이름 바꾸기</button>
+      <button id="whoBtn" type="button">이름 바꾸기</button>
     </div>
   </div>
   <div class="wrap" id="root"></div>
@@ -204,8 +221,9 @@ alter table camp_trips add column if not exists version integer not null default
     view: { name: 'list', id: null },
     year: 'all', adding: false,
     editingTrip: false, editingItemId: null, addingItem: false,
-    lastDeleted: null
+    lastDeleted: null, showName: false
   };
+  let acCurrent = [];
   const root = document.getElementById('root');
   let toastTimer = null;
 
@@ -228,10 +246,80 @@ alter table camp_trips add column if not exists version integer not null default
     return n > 0 ? n : null;
   }
   const normUrl = u => { u = (u || '').trim(); if (!u) return ''; if (!/^https?:\/\//i.test(u)) u = 'https://' + u; return u; };
-  const domainOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return '링크'; } };
+  function punyDecode(input) {
+    const base = 36, tMin = 1, tMax = 26, skew = 38, damp = 700;
+    let n = 128, i = 0, bias = 72; const out = [];
+    let b = input.lastIndexOf('-'); if (b < 0) b = 0;
+    for (let j = 0; j < b; j++) out.push(input.charCodeAt(j));
+    for (let idx = b > 0 ? b + 1 : 0; idx < input.length;) {
+      const oldi = i; let w = 1;
+      for (let k = base; ; k += base) {
+        if (idx >= input.length) throw new Error('bad');
+        const c = input.charCodeAt(idx++);
+        const digit = c - 48 < 10 ? c - 22 : c - 65 < 26 ? c - 65 : c - 97 < 26 ? c - 97 : base;
+        if (digit >= base) throw new Error('bad');
+        i += digit * w; const t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
+        if (digit < t) break; w *= base - t;
+      }
+      const len = out.length + 1; let delta = i - oldi;
+      delta = oldi === 0 ? Math.floor(delta / damp) : Math.floor(delta / 2);
+      delta += Math.floor(delta / len);
+      let k = 0; while (delta > ((base - tMin) * tMax) >> 1) { delta = Math.floor(delta / (base - tMin)); k += base; }
+      bias = k + Math.floor((base - tMin + 1) * delta / (delta + skew));
+      n += Math.floor(i / len); i %= len; out.splice(i, 0, n); i++;
+    }
+    return String.fromCodePoint.apply(null, out);
+  }
+  const hostOf = u => { try { return new URL(u).hostname.toLowerCase(); } catch (e) { return ''; } };
+  const prettyHost = h => h.split('.').map(l => { if (!l.startsWith('xn--')) return l; try { return punyDecode(l.slice(4)); } catch (e) { return l; } }).join('.').replace(/^(www|m|mobile|shop|store)\./, '');
+  const STORES = [
+    [/(^|\.)coupang\.com$/, '쿠팡'], [/smartstore\.naver\.com$/, '네이버 스마트스토어'], [/brand\.naver\.com$/, '네이버 브랜드스토어'],
+    [/shopping\.naver\.com$/, '네이버쇼핑'], [/(^|\.)naver\.(com|me)$/, '네이버'], [/(^|\.)kurly\.com$/, '컬리'], [/gmarket\.co\.kr$/, 'G마켓'],
+    [/auction\.co\.kr$/, '옥션'], [/11st\.co\.kr$/, '11번가'], [/(^|\.)ssg\.com$/, 'SSG'], [/(^|\.)emart\.com$/, '이마트'], [/lotteon\.com$/, '롯데온'],
+    [/(^|\.)tmon\.co\.kr$/, '티몬'], [/wemakeprice\.com$/, '위메프'], [/(^|\.)ohou\.se$/, '오늘의집'], [/costco\.co\.kr$/, '코스트코'],
+    [/homeplus\.co\.kr$/, '홈플러스'], [/daisomall\.co\.kr$/, '다이소'], [/aliexpress\./, '알리익스프레스'], [/(^|\.)temu\.com$/, '테무'],
+    [/(^|\.)amazon\./, '아마존'], [/musinsa\.com$/, '무신사'], [/29cm\.co\.kr$/, '29CM'], [/oliveyoung\.co\.kr$/, '올리브영'],
+    [/gift\.kakao\.com$/, '카카오 선물하기'], [/store\.kakao\.com$/, '카카오 쇼핑'], [/(^|\.)danawa\.com$/, '다나와'], [/(^|\.)ikea\.com$/, '이케아'],
+    [/decathlon\.co\.kr$/, '데카트론'], [/cjonstyle\.com$/, 'CJ온스타일'], [/(^|\.)hmall\.com$/, '현대Hmall'], [/(^|\.)interpark\./, '인터파크'],
+    [/(^|\.)hanaro/, '하나로마트'], [/(^|\.)cafe24\.com$/, '카페24'], [/(^|\.)imweb\.me$/, '아임웹'], [/(^|\.)sixshop\.com$/, '식스샵']
+  ];
+  function storeFromUrl(u) {
+    const h = hostOf(u); if (!h) return '';
+    for (const [re, name] of STORES) if (re.test(h)) return name;
+    return prettyHost(h);
+  }
+  const isUrlLike = t => { t = (t || '').trim(); if (!t || /\s/.test(t)) return false; if (/^https?:\/\//i.test(t)) return true; return /^[\w가-힣.-]+\.[a-z]{2,}(\/|$)/i.test(t) || /^[\w가-힣.-]+\.[가-힣]{2,}(\/|$)/.test(t); };
+  const storeLabel = it => it.store || (it.url ? storeFromUrl(it.url) : '');
+  const domainOf = u => storeFromUrl(u) || '링크';
   const tripTotal = t => (t.items || []).reduce((s, i) => s + (Number(i.cost) || 0), 0);
   const yearOf = t => (t.startDate || '').slice(0, 4) || '날짜 없음';
   const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const parseWon = v => Number(String(v || '').replace(/[^\d]/g, '')) || 0;
+  const fmtWon = v => { const n = parseWon(v); return n ? new Intl.NumberFormat('ko-KR').format(n) : ''; };
+  function itemSuggestions(q) {
+    const map = {};
+    state.trips.forEach(t => (t.items || []).forEach(i => {
+      const k = (i.name || '').trim(); if (!k) return;
+      const e = map[k] || (map[k] = { name: k, count: 0, category: i.category || 'food', url: '', store: '', unit: 0, last: '' });
+      e.count++;
+      const at = i.editedAt || i.createdAt || t.startDate || '';
+      if (at >= e.last) { e.last = at; e.category = i.category || e.category; e.unit = Number(i.unit) || Number(i.cost) || e.unit; if (i.url) e.url = i.url; const sl = storeLabel(i); if (sl) e.store = sl; }
+    }));
+    const ql = (q || '').toLowerCase().trim();
+    return Object.values(map).filter(e => !ql || e.name.toLowerCase().includes(ql)).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name)).slice(0, 6);
+  }
+  function showAc(q) {
+    const box = document.getElementById('acList'); if (!box) return;
+    acCurrent = itemSuggestions(q);
+    if (!acCurrent.length || (acCurrent.length === 1 && acCurrent[0].name === (q || '').trim())) { box.classList.add('hidden'); box.innerHTML = ''; return; }
+    box.innerHTML = acCurrent.map((e, i) => `<button type="button" data-act="acPick" data-i="${i}"><span>${catOf(e.category).e} ${esc(e.name)}</span><span class="m num">${e.count}회${e.unit ? ' · ' + won(e.unit) : ''}${e.store ? ' · ' + esc(e.store) : ''}</span></button>`).join('');
+    box.classList.remove('hidden');
+  }
+  function applyFilter(inputId, rowSel) {
+    const q = val(inputId).toLowerCase();
+    root.querySelectorAll(rowSel).forEach(r => { r.classList.toggle('hidden', !!q && !(r.getAttribute('data-search') || '').includes(q)); });
+    const none = document.getElementById(inputId + '_none'); if (none) none.classList.toggle('hidden', !q || Array.from(root.querySelectorAll(rowSel)).some(r => !r.classList.contains('hidden')));
+  }
   const currentTrip = () => state.trips.find(x => x.id === state.view.id);
 
   // ── 저장소 ────────────────────────────────────
@@ -239,7 +327,13 @@ alter table camp_trips add column if not exists version integer not null default
     const t = {
       id: r.id, place: r.place || '', startDate: r.start_date || '', endDate: r.end_date || '',
       members: Array.isArray(r.members) ? r.members : [],
-      items: (Array.isArray(r.items) ? r.items : []).map(i => Object.assign({ id: uid(), category: 'food', split: null }, i)),
+      items: (Array.isArray(r.items) ? r.items : []).map(i => {
+        const it = Object.assign({ id: uid(), category: 'food', split: null, store: '' }, i);
+        if (it.unit == null) { it.unit = Number(it.cost) || 0; it.qty = 1; it.shipping = 0; }
+        it.qty = Number(it.qty) || 1; it.shipping = Number(it.shipping) || 0; it.unit = Number(it.unit) || 0;
+        it.cost = it.unit * it.qty + it.shipping;
+        return it;
+      }),
       note: r.note || '', meta: (r.meta && typeof r.meta === 'object') ? r.meta : {},
       version: Number(r.version) || 0, updatedAt: r.updated_at
     };
@@ -376,6 +470,7 @@ alter table camp_trips add column if not exists version integer not null default
       h += '<div class="empty">아직 기록이 없어요.<br>다녀온 캠핑을 하나 추가해 보세요.</div>';
     }
 
+    if (state.trips.length >= 6) h += `<div class="search"><input id="q_trip" placeholder="캠핑장·메모 검색" autocomplete="off"></div><div id="q_trip_none" class="note hidden" style="margin:0 0 10px">검색 결과가 없어요.</div>`;
     let lastYear = null;
     shown.forEach(t => {
       const y = yearOf(t);
@@ -388,7 +483,7 @@ alter table camp_trips add column if not exists version integer not null default
       const n = nights(t.startDate, t.endDate);
       const badge = !t.items.length ? '' : s.transfers.length === 0 ? '<span class="badge">정산 없음</span>'
         : s.allSettled ? '<span class="badge">정산 완료</span>' : '<span class="badge warn">정산 미완</span>';
-      h += `<button class="trip" data-act="open" data-id="${esc(t.id)}">
+      h += `<button class="trip" data-act="open" data-id="${esc(t.id)}" data-search="${esc(((t.place || '') + ' ' + (t.note || '') + ' ' + (t.meta.site || '') + ' ' + t.members.join(' ')).toLowerCase())}">
         <div class="date num"><span>${esc(dateRange(t.startDate, t.endDate))}${n ? ' · ' + n + '박' : ''}</span>${badge}</div>
         <div class="place">${esc(t.place || '이름 없는 캠핑장')}</div>
         <div class="meta"><span>${t.members.length ? t.members.length + '명 · ' : ''}${t.items.length}개 항목${t.meta.site ? ' · ' + esc(t.meta.site) : ''}</span>
@@ -498,7 +593,7 @@ alter table camp_trips add column if not exists version integer not null default
     if (!cl.length) h += '<div class="note" style="margin:0">텐트, 버너, 아이스박스처럼 겹치면 안 되는 것부터 적어 보세요.</div>';
     cl.forEach(c => {
       h += `<div class="check ${c.done ? 'done' : ''}">
-        <button class="box" data-act="toggleCheck" data-id="${esc(c.id)}" aria-label="완료 표시">${c.done ? '✓' : ''}</button>
+        <button class="box" data-act="toggleCheck" data-id="${esc(c.id)}" data-mark="${c.done ? '✓' : ''}" aria-label="완료 표시"></button>
         <span class="txt">${esc(c.text)}</span>
         ${c.who ? `<span class="who">${esc(c.who)}</span>` : ''}
         <button class="del" data-act="delCheck" data-id="${esc(c.id)}" aria-label="삭제">×</button>
@@ -515,17 +610,18 @@ alter table camp_trips add column if not exists version integer not null default
     if (!t.items.length && !state.addingItem) {
       h += '<div class="empty">아직 적은 게 없어요.<br>장 본 것부터 하나씩 넣어 보세요.</div>';
     } else if (t.items.length) {
+      if (t.items.length >= 6) h += `<div class="search"><input id="q_item" placeholder="품목·결제자 검색" autocomplete="off"></div><div id="q_item_none" class="note hidden" style="margin:0 0 10px">검색 결과가 없어요.</div>`;
       h += '<div class="ledger">';
       t.items.forEach(it => {
         if (state.editingItemId === it.id) { h += itemForm(t, s, it); return; }
         const c = catOf(it.category);
         const splitTxt = (it.split && it.split.length && it.split.length !== s.members.length) ? ` · ${it.split.length}명 분담` : '';
-        h += `<div class="item">
+        h += `<div class="item" data-search="${esc(((it.name || '') + ' ' + (it.payer || '') + ' ' + c.n + ' ' + storeLabel(it)).toLowerCase())}">
           <div class="name"><span class="cat" title="${c.n}">${c.e}</span>${esc(it.name)}</div>
           <div class="amount num">${won(it.cost)}</div>
-          <div class="by">${it.payer ? esc(it.payer) + ' 결제' : '결제자 미정'}${splitTxt}</div>
+          <div class="by">${(it.qty > 1 || it.shipping) ? `<span class="num">${won(it.unit)} × ${it.qty}${it.shipping ? ' + 배송 ' + won(it.shipping) : ''}</span> · ` : ''}${it.payer ? esc(it.payer) + ' 결제' : '결제자 미정'}${splitTxt}${(!it.url && storeLabel(it)) ? ' · ' + esc(storeLabel(it)) : ''}</div>
           <div class="tools">
-            ${it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener noreferrer">${esc(domainOf(it.url))}</a>` : ''}
+            ${it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener noreferrer">${esc(storeLabel(it) || '링크')} ↗</a>` : ''}
             <button class="edit" data-act="editItem" data-id="${esc(it.id)}">수정</button>
             <button class="del" data-act="delItem" data-id="${esc(it.id)}">삭제</button>
           </div>
@@ -570,21 +666,27 @@ alter table camp_trips add column if not exists version integer not null default
   // 항목 폼 (신규 / 인라인 수정 공용)
   function itemForm(t, s, it) {
     const isEdit = !!it;
-    const d = it || { name: '', cost: '', payer: state.me, url: '', category: 'food', split: null };
+    const d = it || { name: '', unit: '', qty: 1, shipping: '', payer: state.me, url: '', store: '', category: 'food', split: null };
     const splitSel = (d.split && d.split.length) ? d.split : s.members;
     const payerOpts = s.members.map(nm => `<option value="${esc(nm)}"${nm === d.payer ? ' selected' : ''}>${esc(nm)}</option>`).join('');
     const catOpts = CATS.map(c => `<option value="${c.k}"${c.k === (d.category || 'food') ? ' selected' : ''}>${c.e} ${c.n}</option>`).join('');
     return `<div class="item editing" style="display:block">
       ${isEdit ? `<div class="note" style="margin:0 0 8px;color:var(--amber-dark)">수정 중</div>` : ''}
-      <div class="field"><label>품목</label><input id="i_name" placeholder="예: 삼겹살 2kg" value="${esc(d.name)}"></div>
+      <div class="field acwrap"><label>품목</label><input id="i_name" placeholder="예: 삼겹살 2kg" value="${esc(d.name)}" autocomplete="off"><div id="acList" class="ac hidden"></div></div>
       <div class="two">
-        <div class="field"><label>금액 (원)</label><input id="i_cost" type="number" inputmode="numeric" placeholder="24000" value="${esc(d.cost)}"></div>
+        <div class="field"><label>단가 (원)</label><input id="i_unit" type="text" inputmode="numeric" placeholder="12,000" value="${esc(fmtWon(d.unit))}" autocomplete="off"></div>
+        <div class="field"><label>수량</label><input id="i_qty" type="number" inputmode="numeric" min="1" step="1" value="${esc(d.qty || 1)}"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label>배송비 (원) <span style="color:#A9A398">없으면 비움</span></label><input id="i_ship" type="text" inputmode="numeric" placeholder="0" value="${esc(fmtWon(d.shipping))}" autocomplete="off"></div>
         <div class="field"><label>분류</label><select id="i_cat">${catOpts}</select></div>
       </div>
+      <div class="hint num" style="display:flex;justify-content:space-between;margin-top:-2px"><span>합계</span><b id="i_total" style="color:var(--ink)">${won((Number(d.unit) || 0) * (Number(d.qty) || 1) + (Number(d.shipping) || 0))}</b></div>
       <div class="two">
         <div class="field"><label>결제한 사람</label><select id="i_payer"><option value="">선택 안 함</option>${payerOpts}</select></div>
-        <div class="field"><label>구매처 링크</label><input id="i_url" inputmode="url" placeholder="쿠팡·컬리 주소" value="${esc(d.url)}"></div>
+        <div class="field"><label>구매처</label><input id="i_store" placeholder="쿠팡, 하나로마트…" value="${esc(d.store || '')}" data-auto="${d.store ? '0' : '1'}" autocomplete="off"></div>
       </div>
+      <div class="field"><label>구매처 링크 <span style="color:#A9A398">있을 때만</span></label><input id="i_url" inputmode="url" placeholder="상품 페이지 주소 붙여넣기" value="${esc(d.url)}" autocomplete="off"></div>
       <div class="field"><label>나눠 낼 사람 <span style="color:#A9A398">(탭해서 빼기)</span></label>
         <div class="chips" id="splitChips">${s.members.map(nm => `<button type="button" class="split-chip ${splitSel.includes(nm) ? 'on' : ''}" data-act="toggleSplit" data-n="${esc(nm)}">${esc(nm)}</button>`).join('')}</div></div>
       <div class="btnrow">
@@ -594,13 +696,17 @@ alter table camp_trips add column if not exists version integer not null default
     </div>`;
   }
   function readItemForm(s) {
-    const name = val('i_name'), cost = Number(val('i_cost'));
+    const name = val('i_name'), unit = parseWon(val('i_unit')), qty = Math.max(1, Math.floor(Number(val('i_qty')) || 1)), shipping = parseWon(val('i_ship'));
     if (!name) throw new Error('품목 이름을 적어 주세요.');
-    if (!cost || cost < 0) throw new Error('금액을 숫자로 적어 주세요.');
+    if (!unit) throw new Error('단가를 숫자로 적어 주세요.');
     const on = Array.from(document.querySelectorAll('#splitChips .split-chip.on')).map(b => b.getAttribute('data-n'));
     const split = (on.length && on.length !== s.members.length) ? on : null;
     if (on.length === 0) throw new Error('나눠 낼 사람을 한 명 이상 남겨 주세요.');
-    return { name, cost, payer: val('i_payer'), url: normUrl(val('i_url')), category: val('i_cat') || 'etc', split };
+    let rawUrl = val('i_url'), store = val('i_store'), url = '';
+    if (isUrlLike(rawUrl)) url = normUrl(rawUrl);
+    else if (rawUrl && !store) store = rawUrl;   // 링크 칸에 "쿠팡"처럼 이름을 적은 경우
+    if (url && !store) store = storeFromUrl(url);
+    return { name, unit, qty, shipping, cost: unit * qty + shipping, payer: val('i_payer'), store, url, category: val('i_cat') || 'etc', split };
   }
 
   // ── 렌더 ─────────────────────────────────────
@@ -609,7 +715,18 @@ alter table camp_trips add column if not exists version integer not null default
     document.getElementById('heroSub').textContent = state.loading ? '불러오는 중…'
       : state.trips.length ? `${state.trips.length}번의 캠핑 · 모두 합쳐 ${won(spent)}` : '첫 기록을 기다리는 중';
     document.getElementById('whoLabel').textContent = state.me ? `${state.me}(으)로 기록 중` : '이름을 정해 주세요';
-    root.innerHTML = state.view.name === 'trip' ? renderTrip() : renderList();
+    root.innerHTML = (state.view.name === 'trip' ? renderTrip() : renderList()) + (state.showName ? nameSheet() : '');
+    if (state.showName) { const f = document.getElementById('n_name'); if (f) setTimeout(() => f.focus(), 50); }
+  }
+  function nameSheet() {
+    const sugg = knownNames([]).slice(0, 6);
+    return `<div class="sheet-bg" data-act="closeName"><div class="sheet" data-act="noop">
+      <h3>${state.me ? '이름 바꾸기' : '기록에 쓸 이름'}</h3>
+      <p>결제한 사람·담당자에 기본으로 들어갑니다. 이 폰에만 저장돼요.</p>
+      <input id="n_name" class="inp" placeholder="예: 관식 또는 관식네" value="${esc(state.me)}" autocomplete="off" style="font-size:16px">
+      ${sugg.length ? `<div class="chips" style="margin-top:10px">${sugg.map(n => `<button type="button" class="chip sugg" data-act="nameSugg" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>` : ''}
+      <div class="btnrow" style="margin-top:14px"><button class="btn" data-act="saveName">저장</button>${state.me ? '<button class="btn quiet" data-act="closeName">취소</button>' : ''}</div>
+    </div></div>`;
   }
   function toast(msg, actionLabel, actionFn) {
     const el = document.getElementById('toast');
@@ -656,11 +773,26 @@ alter table camp_trips add column if not exists version integer not null default
   const csvCell = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
 
   // ── 이벤트 ───────────────────────────────────
-  document.getElementById('whoBtn').addEventListener('click', () => {
-    const n = window.prompt('기록에 쓸 이름을 적어 주세요', state.me || '');
-    if (n === null) return;
-    if (n.trim()) { saveMe(n.trim()); render(); }
+  document.getElementById('whoBtn').addEventListener('click', () => { state.showName = true; render(); });
+
+  root.addEventListener('input', ev => {
+    const id = ev.target.id;
+    if (id === 'i_unit' || id === 'i_ship') { const f = fmtWon(ev.target.value); if (ev.target.value !== f) { ev.target.value = f; try { ev.target.setSelectionRange(f.length, f.length); } catch (e) {} } }
+    if (id === 'i_unit' || id === 'i_ship' || id === 'i_qty') {
+      const tot = document.getElementById('i_total');
+      if (tot) tot.textContent = won(parseWon(val('i_unit')) * Math.max(1, Math.floor(Number(val('i_qty')) || 1)) + parseWon(val('i_ship')));
+    }
+    else if (id === 'i_name') showAc(ev.target.value);
+    else if (id === 'i_url') {
+      const st = document.getElementById('i_store');
+      if (st && st.getAttribute('data-auto') === '1') { const nm = isUrlLike(ev.target.value) ? storeFromUrl(normUrl(ev.target.value)) : ''; st.value = nm; }
+    }
+    else if (id === 'i_store') ev.target.setAttribute('data-auto', ev.target.value ? '0' : '1');
+    else if (id === 'q_item') applyFilter('q_item', '.ledger .item');
+    else if (id === 'q_trip') applyFilter('q_trip', '.trip');
   });
+  root.addEventListener('focusin', ev => { if (ev.target.id === 'i_name') showAc(ev.target.value); });
+  root.addEventListener('focusout', ev => { if (ev.target.id === 'i_name') setTimeout(() => { const b = document.getElementById('acList'); if (b) b.classList.add('hidden'); }, 200); });
 
   document.getElementById('importFile').addEventListener('change', async ev => {
     const f = ev.target.files[0]; ev.target.value = '';
@@ -683,6 +815,23 @@ alter table camp_trips add column if not exists version integer not null default
     if (!el || !root.contains(el)) return;
     const act = el.getAttribute('data-act');
 
+    // 이름 시트
+    if (act === 'noop') return;
+    if (act === 'closeName') { if (!state.me) return; state.showName = false; return render(); }
+    if (act === 'nameSugg') { const f = document.getElementById('n_name'); if (f) { f.value = el.getAttribute('data-n'); f.focus(); } return; }
+    if (act === 'saveName') { const n = val('n_name'); if (!n) { toast('이름을 적어 주세요'); return; } saveMe(n); state.showName = false; render(); return toast(`${n}(으)로 기록합니다`); }
+    if (act === 'acPick') {
+      const e = acCurrent[Number(el.getAttribute('data-i'))]; if (!e) return;
+      const g = id => document.getElementById(id);
+      g('i_name').value = e.name;
+      if (!parseWon(g('i_unit').value) && e.unit) { g('i_unit').value = fmtWon(e.unit); const tot = g('i_total'); if (tot) tot.textContent = won(e.unit * Math.max(1, Number(g('i_qty').value) || 1) + parseWon(g('i_ship').value)); }
+      if (g('i_cat')) g('i_cat').value = e.category;
+      if (!g('i_url').value && e.url) g('i_url').value = e.url;
+      if (!g('i_store').value && e.store) { g('i_store').value = e.store; g('i_store').setAttribute('data-auto', '0'); }
+      const b = g('acList'); if (b) { b.classList.add('hidden'); b.innerHTML = ''; }
+      g('i_unit').focus(); return;
+    }
+
     // 화면 이동 / 필터
     if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; resetEditing(); return render(); }
     if (act === 'back') { state.view = { name: 'list' }; state.error = ''; resetEditing(); return render(); }
@@ -696,8 +845,8 @@ alter table camp_trips add column if not exists version integer not null default
       return toast('JSON 백업 파일을 내려받았어요');
     }
     if (act === 'exportCsv') {
-      const rows = [['캠핑장', '시작일', '종료일', '분류', '품목', '금액', '결제자', '나눠낸사람', '구매처']];
-      state.trips.forEach(t => t.items.forEach(i => rows.push([t.place, t.startDate, t.endDate, catOf(i.category).n, i.name, i.cost, i.payer, (i.split || []).join(' '), i.url])));
+      const rows = [['캠핑장', '시작일', '종료일', '분류', '품목', '단가', '수량', '배송비', '금액', '결제자', '나눠낸사람', '구매처', '링크']];
+      state.trips.forEach(t => t.items.forEach(i => rows.push([t.place, t.startDate, t.endDate, catOf(i.category).n, i.name, i.unit, i.qty, i.shipping, i.cost, i.payer, (i.split || []).join(' '), storeLabel(i), i.url])));
       download(`기린반캠핑_항목_${today()}.csv`, '\uFEFF' + rows.map(r => r.map(csvCell).join(',')).join('\r\n'), 'text/csv');
       return toast('CSV 파일을 내려받았어요');
     }
@@ -844,7 +993,7 @@ alter table camp_trips add column if not exists version integer not null default
   // 엔터로 빠른 추가
   root.addEventListener('keydown', ev => {
     if (ev.key !== 'Enter' || ev.target.tagName === 'TEXTAREA') return;
-    const map = { m_name: 'addMember', c_text: 'addCheck', i_name: null, i_cost: null, i_url: null };
+    const map = { m_name: 'addMember', c_text: 'addCheck', n_name: 'saveName', i_name: null, i_unit: null, i_qty: null, i_ship: null, i_store: null, i_url: null };
     const id = ev.target.id;
     if (id in map) {
       ev.preventDefault();
@@ -875,7 +1024,7 @@ alter table camp_trips add column if not exists version integer not null default
       state.error = e instanceof MigrationError ? '' : '서버에서 기록을 불러오지 못했어요. 연결을 확인하고 새로고침해 주세요.';
     }
     state.loading = false; render();
-    if (!state.me) setTimeout(() => document.getElementById('whoBtn').click(), 300);
+    if (!state.me) { state.showName = true; render(); }
   })();
 })();
 </script>
