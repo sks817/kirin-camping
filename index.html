@@ -1,0 +1,726 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --ink: #12211B;
+    --pine: #1E3B31;
+    --pine-2: #2C5648;
+    --paper: #F6F2E9;
+    --card: #FFFFFF;
+    --line: #DED7C7;
+    --line-soft: #ECE6D8;
+    --muted: #6B7A72;
+    --amber: #DF9B2C;
+    --amber-dark: #B87A17;
+    --rust: #9E4B33;
+    --green: #2E7D5B;
+  }
+
+  * { box-sizing: border-box; }
+
+  .app {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+                 "Noto Sans KR", "Malgun Gothic", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .app button { font-family: inherit; cursor: pointer; }
+  .app input, .app select, .app textarea { font-family: inherit; }
+  .app :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ── 헤더 ────────────────────────────────── */
+  .hero {
+    background: var(--pine);
+    color: var(--paper);
+    padding: 22px 20px 20px;
+  }
+  .hero h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  .hero .sub {
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: #A9C2B6;
+  }
+  .hero .who {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #A9C2B6;
+  }
+  .hero .who button {
+    background: transparent;
+    border: 1px solid #3F6455;
+    color: var(--paper);
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 13px;
+  }
+
+  /* ── 레이아웃 ─────────────────────────────── */
+  .wrap { padding: 16px 16px 48px; max-width: 640px; margin: 0 auto; }
+
+  .rowline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h2.sec {
+    margin: 26px 0 10px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── 캠핑 카드 ────────────────────────────── */
+  .trip {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 15px;
+    margin-bottom: 10px;
+    color: inherit;
+  }
+  .trip .date {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .trip .place {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 2px 0 8px;
+  }
+  .trip .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .trip .cost { font-weight: 600; color: var(--ink); }
+
+  /* ── 영수증형 항목 목록 ─────────────────────── */
+  .ledger {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .item:last-child { border-bottom: 0; }
+  .item .name { font-size: 15px; font-weight: 500; }
+  .item .amount { font-size: 15px; font-weight: 600; white-space: nowrap; }
+  .item .by { font-size: 12.5px; color: var(--muted); }
+  .item .tools { display: flex; gap: 10px; align-items: center; justify-content: flex-end; }
+  .item a {
+    font-size: 12.5px;
+    color: var(--amber-dark);
+    text-decoration: none;
+    border-bottom: 1px solid #EBD3A6;
+  }
+  .item .del {
+    background: none;
+    border: 0;
+    color: #A9A398;
+    font-size: 13px;
+    padding: 0;
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 14px;
+    background: #FBF8F1;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  /* ── 정산 ────────────────────────────────── */
+  .settle {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 4px 15px 12px;
+  }
+  .bal {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+  }
+  .bal:last-of-type { border-bottom: 0; }
+  .bal .plus { color: var(--green); font-weight: 600; }
+  .bal .minus { color: var(--rust); font-weight: 600; }
+  .transfer {
+    margin-top: 10px;
+    padding: 11px 12px;
+    background: #FDF6E7;
+    border: 1px solid #F0DFB8;
+    border-radius: 10px;
+    font-size: 14.5px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .transfer b { font-weight: 700; }
+
+  /* ── 사람 칩 ─────────────────────────────── */
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    background: #E7EFE9;
+    border: 1px solid #CFDED4;
+    color: var(--pine);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-size: 13.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chip button { background: none; border: 0; color: #7C8F84; padding: 0; font-size: 14px; line-height: 1; }
+
+  /* ── 폼 ─────────────────────────────────── */
+  .form {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 10px;
+  }
+  .field { margin-bottom: 10px; }
+  .field label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font-size: 15px;
+    background: #FFFDF8;
+    color: var(--ink);
+  }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--amber);
+    color: #2A1D05;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .btn.ghost {
+    background: transparent;
+    border: 1px dashed #C6BCA6;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .btn.quiet {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .btn.danger { background: transparent; border: 1px solid #E0C4BB; color: var(--rust); font-weight: 500; }
+  .btn + .btn { margin-top: 8px; }
+
+  .back {
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 0 0 10px;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 34px 20px;
+    color: var(--muted);
+    font-size: 14.5px;
+    border: 1px dashed #CFC7B3;
+    border-radius: 14px;
+  }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .warn {
+    font-size: 12.5px;
+    color: #7A5B1E;
+    background: #FDF6E7;
+    border: 1px solid #F0DFB8;
+    border-radius: 9px;
+    padding: 9px 11px;
+    margin-top: 12px;
+  }
+  .err {
+    font-size: 13px;
+    color: var(--rust);
+    background: #FBEDE9;
+    border: 1px solid #E8CEC5;
+    border-radius: 9px;
+    padding: 9px 11px;
+    margin-bottom: 10px;
+  }
+  .hidden { display: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .trip { transition: border-color .15s ease; }
+  }
+</style>
+
+<div class="app">
+  <div class="hero">
+    <h1>기린반 캠핑</h1>
+    <div class="sub" id="heroSub">불러오는 중…</div>
+    <div class="who">
+      <span id="whoLabel">이름을 정해 주세요</span>
+      <button id="whoBtn">이름 바꾸기</button>
+    </div>
+  </div>
+  <div class="wrap" id="root"></div>
+</div>
+
+<script>
+(function () {
+  // ── Supabase 설정 ──────────────────────────
+  var SUPA_URL = 'https://qtsxkujwynzzrrbldtew.supabase.co';
+  var SUPA_KEY = 'sb_publishable_-_vXcrklcqKbxsHB58TNXg_X8UwsMMv';
+  var TABLE = 'camp_trips';
+  var ME_KEY = 'camp_me_name';
+
+  function api(path, opts) {
+    opts = opts || {};
+    return fetch(SUPA_URL + '/rest/v1/' + path, {
+      method: opts.method || 'GET',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': opts.prefer || 'return=minimal'
+      },
+      body: opts.body ? JSON.stringify(opts.body) : undefined
+    }).then(function (r) {
+      if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ' ' + t); });
+      return r.status === 204 ? null : r.json().catch(function () { return null; });
+    });
+  }
+
+  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+
+  var state = {
+    me: '',
+    trips: [],
+    view: { name: 'list', id: null },
+    adding: false,
+    loading: true,
+    error: ''
+  };
+
+  var root = document.getElementById('root');
+
+  /* ── 유틸 ─────────────────────────────── */
+  function won(n) {
+    return new Intl.NumberFormat('ko-KR').format(Math.round(n)) + '원';
+  }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+  function fmtDate(d) {
+    if (!d) return '';
+    var p = d.split('-');
+    return p[0] + '.' + p[1] + '.' + p[2];
+  }
+  function dateRange(a, b) {
+    if (!a) return '날짜 미정';
+    if (!b || b === a) return fmtDate(a);
+    var pa = a.split('-'), pb = b.split('-');
+    if (pa[0] === pb[0] && pa[1] === pb[1]) return fmtDate(a) + '–' + pb[2];
+    return fmtDate(a) + ' – ' + fmtDate(b);
+  }
+  function normUrl(u) {
+    u = (u || '').trim();
+    if (!u) return '';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    return u;
+  }
+  function tripTotal(t) {
+    return (t.items || []).reduce(function (s, i) { return s + (Number(i.cost) || 0); }, 0);
+  }
+
+  /* ── 저장소 (Supabase) ──────────────────── */
+  function rowToTrip(r) {
+    return {
+      id: r.id, place: r.place,
+      startDate: r.start_date || '', endDate: r.end_date || '',
+      members: r.members || [], items: r.items || [],
+      note: r.note || '', updatedAt: r.updated_at
+    };
+  }
+  function tripToRow(t) {
+    return {
+      id: t.id, place: t.place,
+      start_date: t.startDate || null, end_date: t.endDate || null,
+      members: t.members || [], items: t.items || [],
+      note: t.note || '', updated_at: new Date().toISOString()
+    };
+  }
+  function loadMe() {
+    var v = lsGet(ME_KEY);
+    if (v) state.me = v;
+    return Promise.resolve();
+  }
+  function saveMe(name) {
+    state.me = name;
+    lsSet(ME_KEY, name);
+    return Promise.resolve();
+  }
+  async function loadTrips() {
+    var rows = await api(TABLE + '?select=*&order=start_date.desc', { prefer: 'return=representation' });
+    state.trips = (rows || []).map(rowToTrip);
+  }
+  async function saveTrip(t) {
+    await api(TABLE + '?on_conflict=id', {
+      method: 'POST',
+      prefer: 'resolution=merge-duplicates,return=minimal',
+      body: [tripToRow(t)]
+    });
+  }
+  async function removeTrip(id) {
+    await api(TABLE + '?id=eq.' + encodeURIComponent(id), { method: 'DELETE' });
+    state.trips = state.trips.filter(function (t) { return t.id !== id; });
+  }
+
+  /* ── 1/N 정산 계산 ───────────────────────── */
+  function settle(trip) {
+    var members = (trip.members || []).slice();
+    var items = trip.items || [];
+    var total = tripTotal(trip);
+
+    // 명단에 없는 결제자도 정산 대상에 포함
+    items.forEach(function (i) {
+      if (i.payer && members.indexOf(i.payer) === -1) members.push(i.payer);
+    });
+    if (!members.length || !total) {
+      return { members: members, total: total, share: 0, balances: [], transfers: [] };
+    }
+
+    var share = total / members.length;
+    var paid = {};
+    members.forEach(function (m) { paid[m] = 0; });
+    items.forEach(function (i) {
+      if (i.payer) paid[i.payer] = (paid[i.payer] || 0) + (Number(i.cost) || 0);
+    });
+
+    var balances = members.map(function (m) {
+      return { name: m, paid: paid[m], balance: paid[m] - share };
+    });
+
+    // 최소 송금 횟수 그리디 매칭
+    var cred = balances.filter(function (b) { return b.balance > 0.5; })
+      .map(function (b) { return { name: b.name, amt: b.balance }; })
+      .sort(function (a, b) { return b.amt - a.amt; });
+    var debt = balances.filter(function (b) { return b.balance < -0.5; })
+      .map(function (b) { return { name: b.name, amt: -b.balance }; })
+      .sort(function (a, b) { return b.amt - a.amt; });
+
+    var transfers = [], ci = 0, di = 0, guard = 0;
+    while (ci < cred.length && di < debt.length && guard++ < 200) {
+      var amt = Math.min(cred[ci].amt, debt[di].amt);
+      if (amt > 0.5) transfers.push({ from: debt[di].name, to: cred[ci].name, amt: amt });
+      cred[ci].amt -= amt;
+      debt[di].amt -= amt;
+      if (cred[ci].amt <= 0.5) ci++;
+      if (debt[di].amt <= 0.5) di++;
+    }
+    return { members: members, total: total, share: share, balances: balances, transfers: transfers };
+  }
+
+  /* ── 화면: 목록 ──────────────────────────── */
+  function renderList() {
+    var h = '';
+    if (state.error) h += '<div class="err">' + esc(state.error) + '</div>';
+
+    if (state.loading) {
+      h += '<div class="empty">기록을 불러오는 중…</div>';
+      return h;
+    }
+
+    if (!state.trips.length && !state.adding) {
+      h += '<div class="empty">아직 기록이 없어요.<br>다녀온 캠핑을 하나 추가해 보세요.</div>';
+    }
+
+    state.trips.forEach(function (t) {
+      var n = ((t.members || []).length) || 0;
+      h += '<button class="trip" data-act="open" data-id="' + t.id + '">' +
+        '<div class="date num">' + esc(dateRange(t.startDate, t.endDate)) + '</div>' +
+        '<div class="place">' + esc(t.place || '이름 없는 캠핑장') + '</div>' +
+        '<div class="meta"><span>' + (n ? n + '명 · ' : '') +
+        ((t.items || []).length) + '개 항목</span>' +
+        '<span class="cost num">' + won(tripTotal(t)) + '</span></div>' +
+        '</button>';
+    });
+
+    if (state.adding) {
+      h += '<div class="form">' +
+        '<div class="field"><label for="f_place">캠핑장 이름</label>' +
+        '<input id="f_place" placeholder="예: 태안 몽산포오토캠핑장"></div>' +
+        '<div class="two">' +
+          '<div class="field"><label for="f_start">시작일</label><input id="f_start" type="date"></div>' +
+          '<div class="field"><label for="f_end">종료일</label><input id="f_end" type="date"></div>' +
+        '</div>' +
+        '<div class="field"><label for="f_members">함께 간 사람 (쉼표로 구분)</label>' +
+        '<input id="f_members" placeholder="관식, 지훈, 민서" value="' + esc(state.me) + '"></div>' +
+        '<div class="field"><label for="f_note">메모</label>' +
+        '<input id="f_note" placeholder="갯벌 조개잡이, 물놀이터 있음"></div>' +
+        '<button class="btn" data-act="createTrip">캠핑 추가</button>' +
+        '<button class="btn quiet" data-act="cancelAdd">취소</button>' +
+      '</div>';
+    } else {
+      h += '<button class="btn ghost" data-act="startAdd">+ 캠핑 추가</button>';
+      h += '<button class="btn quiet" data-act="refresh">새로고침</button>';
+      h += '<div class="warn">모임 사람 모두가 같은 기록을 봅니다. 다른 사람이 방금 적은 건 새로고침해야 보여요. 링크를 아는 사람은 누구나 고칠 수 있으니 계좌번호는 적지 마세요.</div>';
+    }
+    return h;
+  }
+
+  /* ── 화면: 캠핑 상세 ──────────────────────── */
+  function renderTrip() {
+    var t = state.trips.filter(function (x) { return x.id === state.view.id; })[0];
+    if (!t) { state.view = { name: 'list' }; return renderList(); }
+
+    var s = settle(t);
+    var h = '<button class="back" data-act="back">← 전체 기록</button>';
+    if (state.error) h += '<div class="err">' + esc(state.error) + '</div>';
+
+    h += '<div class="rowline"><div>' +
+      '<div class="date num" style="font-size:12.5px;color:var(--muted)">' +
+      esc(dateRange(t.startDate, t.endDate)) + '</div>' +
+      '<h1 style="margin:2px 0 0;font-size:22px;letter-spacing:-.03em">' +
+      esc(t.place || '이름 없는 캠핑장') + '</h1></div></div>';
+    if (t.note) h += '<div class="note">' + esc(t.note) + '</div>';
+
+    h += '<h2 class="sec">함께 간 사람</h2><div class="chips">';
+    (t.members || []).forEach(function (m, i) {
+      h += '<span class="chip">' + esc(m) +
+        '<button data-act="delMember" data-i="' + i + '" aria-label="' + esc(m) + ' 빼기">×</button></span>';
+    });
+    h += '</div>';
+    h += '<div class="two" style="margin-top:9px">' +
+      '<input id="m_name" placeholder="이름 추가" style="padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#FFFDF8">' +
+      '<button class="btn quiet" data-act="addMember" style="padding:9px">추가</button></div>';
+
+    h += '<h2 class="sec">산 것</h2>';
+    if (!(t.items || []).length) {
+      h += '<div class="empty">아직 적은 게 없어요.<br>장 본 것부터 하나씩 넣어 보세요.</div>';
+    } else {
+      h += '<div class="ledger">';
+      t.items.forEach(function (it, i) {
+        h += '<div class="item">' +
+          '<div class="name">' + esc(it.name) + '</div>' +
+          '<div class="amount num">' + won(it.cost) + '</div>' +
+          '<div class="by">' + (it.payer ? esc(it.payer) + ' 결제' : '결제자 미정') + '</div>' +
+          '<div class="tools">' +
+            (it.url ? '<a href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">구매처</a>' : '') +
+            '<button class="del" data-act="delItem" data-i="' + i + '">삭제</button>' +
+          '</div>' +
+        '</div>';
+      });
+      h += '<div class="total"><span>합계</span><span class="num">' + won(s.total) + '</span></div></div>';
+    }
+
+    var payerOpts = (s.members || []).map(function (m) {
+      return '<option value="' + esc(m) + '"' + (m === state.me ? ' selected' : '') + '>' + esc(m) + '</option>';
+    }).join('');
+
+    h += '<div class="form">' +
+      '<div class="field"><label for="i_name">품목</label>' +
+      '<input id="i_name" placeholder="예: 삼겹살 2kg"></div>' +
+      '<div class="two">' +
+        '<div class="field"><label for="i_cost">금액 (원)</label>' +
+        '<input id="i_cost" type="number" inputmode="numeric" placeholder="24000"></div>' +
+        '<div class="field"><label for="i_payer">결제한 사람</label>' +
+        '<select id="i_payer"><option value="">선택 안 함</option>' + payerOpts + '</select></div>' +
+      '</div>' +
+      '<div class="field"><label for="i_url">구매처 링크</label>' +
+      '<input id="i_url" inputmode="url" placeholder="쿠팡·마켓컬리 주소 붙여넣기"></div>' +
+      '<button class="btn" data-act="addItem">항목 추가</button>' +
+    '</div>';
+
+    h += '<h2 class="sec">정산</h2>';
+    if (!s.total || !s.members.length) {
+      h += '<div class="empty">항목과 사람을 넣으면 1/N을 계산해요.</div>';
+    } else {
+      h += '<div class="settle">';
+      h += '<div class="bal"><span>1인당</span><span class="num" style="font-weight:700">' + won(s.share) + '</span></div>';
+      s.balances.forEach(function (b) {
+        var cls = b.balance > 0.5 ? 'plus' : (b.balance < -0.5 ? 'minus' : '');
+        var txt = b.balance > 0.5 ? '+' + won(b.balance) + ' 받을 돈'
+                : b.balance < -0.5 ? won(-b.balance) + ' 낼 돈' : '정산 끝';
+        h += '<div class="bal"><span>' + esc(b.name) +
+          ' <span style="color:var(--muted);font-size:12.5px">' + won(b.paid) + ' 결제</span></span>' +
+          '<span class="' + cls + ' num">' + txt + '</span></div>';
+      });
+      s.transfers.forEach(function (tr) {
+        h += '<div class="transfer"><span><b>' + esc(tr.from) + '</b> → <b>' + esc(tr.to) + '</b></span>' +
+          '<span class="num"><b>' + won(tr.amt) + '</b></span></div>';
+      });
+      h += '</div>';
+      h += '<div class="note">전체 금액을 인원수로 똑같이 나눈 값이에요. 항목마다 나눠 낼 사람이 다르면 이 계산은 맞지 않아요.</div>';
+    }
+
+    h += '<div style="margin-top:26px"><button class="btn danger" data-act="delTrip">이 캠핑 기록 삭제</button></div>';
+    return h;
+  }
+
+  /* ── 렌더 ────────────────────────────────── */
+  function render() {
+    var sub = document.getElementById('heroSub');
+    var spent = state.trips.reduce(function (a, t) { return a + tripTotal(t); }, 0);
+    sub.textContent = state.loading ? '불러오는 중…'
+      : state.trips.length ? state.trips.length + '번의 캠핑 · 모두 합쳐 ' + won(spent)
+      : '첫 기록을 기다리는 중';
+
+    document.getElementById('whoLabel').textContent = state.me ? state.me + '(으)로 기록 중' : '이름을 정해 주세요';
+    root.innerHTML = state.view.name === 'trip' ? renderTrip() : renderList();
+  }
+
+  /* ── 이벤트 ──────────────────────────────── */
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  function currentTrip() {
+    return state.trips.filter(function (x) { return x.id === state.view.id; })[0];
+  }
+  async function guard(fn) {
+    state.error = '';
+    try { await fn(); }
+    catch (e) { state.error = '서버에 저장하지 못했어요. 인터넷 연결을 확인하고 다시 해 보세요.'; }
+    render();
+  }
+
+  document.getElementById('whoBtn').addEventListener('click', function () {
+    var n = window.prompt('기록에 쓸 이름을 적어 주세요', state.me || '');
+    if (n === null) return;
+    n = n.trim();
+    if (n) saveMe(n).then(render);
+  });
+
+  document.body.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act]');
+    if (!el || !root.contains(el)) return;
+    var act = el.getAttribute('data-act');
+
+    if (act === 'refresh') {
+      state.loading = true; state.error = ''; render();
+      return guard(async function () { await loadTrips(); state.loading = false; });
+    }
+    if (act === 'startAdd') { state.adding = true; return render(); }
+    if (act === 'cancelAdd') { state.adding = false; return render(); }
+    if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; return render(); }
+    if (act === 'back') { state.view = { name: 'list' }; state.error = ''; return render(); }
+
+    if (act === 'createTrip') {
+      var place = val('f_place');
+      if (!place) { state.error = '캠핑장 이름을 적어 주세요.'; return render(); }
+      var members = val('f_members').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+      var trip = {
+        id: uid(), place: place,
+        startDate: val('f_start'), endDate: val('f_end'),
+        members: members, note: val('f_note'), items: []
+      };
+      return guard(async function () {
+        await saveTrip(trip);
+        state.trips.unshift(trip);
+        state.trips.sort(function (a, b) { return (b.startDate || '').localeCompare(a.startDate || ''); });
+        state.adding = false;
+        state.view = { name: 'trip', id: trip.id };
+      });
+    }
+
+    var t = currentTrip();
+    if (!t) return;
+
+    if (act === 'addMember') {
+      var name = val('m_name');
+      if (!name) return;
+      if ((t.members || []).indexOf(name) !== -1) { state.error = '이미 있는 이름이에요.'; return render(); }
+      t.members = (t.members || []).concat([name]);
+      return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'delMember') {
+      t.members.splice(Number(el.getAttribute('data-i')), 1);
+      return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'addItem') {
+      var iname = val('i_name'), cost = Number(val('i_cost'));
+      if (!iname) { state.error = '품목 이름을 적어 주세요.'; return render(); }
+      if (!cost || cost < 0) { state.error = '금액을 숫자로 적어 주세요.'; return render(); }
+      t.items = (t.items || []).concat([{
+        name: iname, cost: cost, payer: val('i_payer'), url: normUrl(val('i_url'))
+      }]);
+      return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'delItem') {
+      t.items.splice(Number(el.getAttribute('data-i')), 1);
+      return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'delTrip') {
+      if (!window.confirm('"' + (t.place || '이 캠핑') + '" 기록을 지울까요? 모임 사람들 화면에서도 사라져요.')) return;
+      return guard(async function () {
+        await removeTrip(t.id);
+        state.view = { name: 'list' };
+      });
+    }
+  });
+
+  /* ── 시작 ────────────────────────────────── */
+  (async function init() {
+    render();
+    await loadMe();
+    try { await loadTrips(); }
+    catch (e) { state.error = '서버에서 기록을 불러오지 못했어요. 연결을 확인하고 새로고침해 주세요.'; }
+    state.loading = false;
+    render();
+  })();
+})();
+</script>
