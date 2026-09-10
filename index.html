@@ -342,6 +342,8 @@
     trips: [],
     view: { name: 'list', id: null },
     adding: false,
+    editingTrip: false,
+    editingItem: null,
     loading: true,
     error: ''
   };
@@ -527,12 +529,28 @@
     var h = '<button class="back" data-act="back">← 전체 기록</button>';
     if (state.error) h += '<div class="err">' + esc(state.error) + '</div>';
 
-    h += '<div class="rowline"><div>' +
-      '<div class="date num" style="font-size:12.5px;color:var(--muted)">' +
-      esc(dateRange(t.startDate, t.endDate)) + '</div>' +
-      '<h1 style="margin:2px 0 0;font-size:22px;letter-spacing:-.03em">' +
-      esc(t.place || '이름 없는 캠핑장') + '</h1></div></div>';
-    if (t.note) h += '<div class="note">' + esc(t.note) + '</div>';
+    if (state.editingTrip) {
+      h += '<div class="form" style="margin-top:0">' +
+        '<div class="field"><label for="f_place">캠핑장 이름</label>' +
+        '<input id="f_place" value="' + esc(t.place) + '"></div>' +
+        '<div class="two">' +
+          '<div class="field"><label for="f_start">시작일</label><input id="f_start" type="date" value="' + esc(t.startDate) + '"></div>' +
+          '<div class="field"><label for="f_end">종료일</label><input id="f_end" type="date" value="' + esc(t.endDate) + '"></div>' +
+        '</div>' +
+        '<div class="field"><label for="f_note">메모</label>' +
+        '<input id="f_note" value="' + esc(t.note) + '"></div>' +
+        '<button class="btn" data-act="saveTripEdit">저장</button>' +
+        '<button class="btn quiet" data-act="cancelTripEdit">취소</button>' +
+      '</div>';
+    } else {
+      h += '<div class="rowline"><div>' +
+        '<div class="date num" style="font-size:12.5px;color:var(--muted)">' +
+        esc(dateRange(t.startDate, t.endDate)) + '</div>' +
+        '<h1 style="margin:2px 0 0;font-size:22px;letter-spacing:-.03em">' +
+        esc(t.place || '이름 없는 캠핑장') + '</h1></div>' +
+        '<button class="back" data-act="editTrip" style="padding:0;white-space:nowrap">수정</button></div>';
+      if (t.note) h += '<div class="note">' + esc(t.note) + '</div>';
+    }
 
     h += '<h2 class="sec">함께 간 사람</h2><div class="chips">';
     (t.members || []).forEach(function (m, i) {
@@ -556,6 +574,7 @@
           '<div class="by">' + (it.payer ? esc(it.payer) + ' 결제' : '결제자 미정') + '</div>' +
           '<div class="tools">' +
             (it.url ? '<a href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">구매처</a>' : '') +
+            '<button class="del" data-act="editItem" data-i="' + i + '" style="color:var(--amber-dark)">수정</button>' +
             '<button class="del" data-act="delItem" data-i="' + i + '">삭제</button>' +
           '</div>' +
         '</div>';
@@ -563,22 +582,29 @@
       h += '<div class="total"><span>합계</span><span class="num">' + won(s.total) + '</span></div></div>';
     }
 
+    var editIdx = state.editingItem;
+    var ed = (editIdx !== null && t.items && t.items[editIdx]) ? t.items[editIdx] : null;
+    var selPayer = ed ? ed.payer : state.me;
     var payerOpts = (s.members || []).map(function (m) {
-      return '<option value="' + esc(m) + '"' + (m === state.me ? ' selected' : '') + '>' + esc(m) + '</option>';
+      return '<option value="' + esc(m) + '"' + (m === selPayer ? ' selected' : '') + '>' + esc(m) + '</option>';
     }).join('');
 
-    h += '<div class="form">' +
+    h += '<div class="form"' + (ed ? ' style="border-color:var(--amber)"' : '') + '>' +
+      (ed ? '<div class="note" style="margin:0 0 10px;color:var(--amber-dark)">"' + esc(ed.name) + '" 수정 중</div>' : '') +
       '<div class="field"><label for="i_name">품목</label>' +
-      '<input id="i_name" placeholder="예: 삼겹살 2kg"></div>' +
+      '<input id="i_name" placeholder="예: 삼겹살 2kg" value="' + (ed ? esc(ed.name) : '') + '"></div>' +
       '<div class="two">' +
         '<div class="field"><label for="i_cost">금액 (원)</label>' +
-        '<input id="i_cost" type="number" inputmode="numeric" placeholder="24000"></div>' +
+        '<input id="i_cost" type="number" inputmode="numeric" placeholder="24000" value="' + (ed ? esc(ed.cost) : '') + '"></div>' +
         '<div class="field"><label for="i_payer">결제한 사람</label>' +
         '<select id="i_payer"><option value="">선택 안 함</option>' + payerOpts + '</select></div>' +
       '</div>' +
       '<div class="field"><label for="i_url">구매처 링크</label>' +
-      '<input id="i_url" inputmode="url" placeholder="쿠팡·마켓컬리 주소 붙여넣기"></div>' +
-      '<button class="btn" data-act="addItem">항목 추가</button>' +
+      '<input id="i_url" inputmode="url" placeholder="쿠팡·마켓컬리 주소 붙여넣기" value="' + (ed ? esc(ed.url) : '') + '"></div>' +
+      (ed
+        ? '<button class="btn" data-act="saveItemEdit">수정 저장</button>' +
+          '<button class="btn quiet" data-act="cancelItemEdit">취소</button>'
+        : '<button class="btn" data-act="addItem">항목 추가</button>') +
     '</div>';
 
     h += '<h2 class="sec">정산</h2>';
@@ -652,8 +678,8 @@
     }
     if (act === 'startAdd') { state.adding = true; return render(); }
     if (act === 'cancelAdd') { state.adding = false; return render(); }
-    if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; return render(); }
-    if (act === 'back') { state.view = { name: 'list' }; state.error = ''; return render(); }
+    if (act === 'open') { state.view = { name: 'trip', id: el.getAttribute('data-id') }; state.error = ''; state.editingItem = null; state.editingTrip = false; return render(); }
+    if (act === 'back') { state.view = { name: 'list' }; state.error = ''; state.editingItem = null; state.editingTrip = false; return render(); }
 
     if (act === 'createTrip') {
       var place = val('f_place');
@@ -701,7 +727,41 @@
 
     if (act === 'delItem') {
       t.items.splice(Number(el.getAttribute('data-i')), 1);
+      state.editingItem = null;
       return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'editItem') {
+      state.editingItem = Number(el.getAttribute('data-i'));
+      state.error = '';
+      render();
+      var f = document.getElementById('i_name');
+      if (f) f.scrollIntoView({ block: 'center' });
+      return;
+    }
+    if (act === 'cancelItemEdit') { state.editingItem = null; return render(); }
+    if (act === 'saveItemEdit') {
+      var idx = state.editingItem;
+      if (idx === null || !t.items[idx]) { state.editingItem = null; return render(); }
+      var ename = val('i_name'), ecost = Number(val('i_cost'));
+      if (!ename) { state.error = '품목 이름을 적어 주세요.'; return render(); }
+      if (!ecost || ecost < 0) { state.error = '금액을 숫자로 적어 주세요.'; return render(); }
+      t.items[idx] = { name: ename, cost: ecost, payer: val('i_payer'), url: normUrl(val('i_url')) };
+      state.editingItem = null;
+      return guard(function () { return saveTrip(t); });
+    }
+
+    if (act === 'editTrip') { state.editingTrip = true; state.error = ''; return render(); }
+    if (act === 'cancelTripEdit') { state.editingTrip = false; return render(); }
+    if (act === 'saveTripEdit') {
+      var nplace = val('f_place');
+      if (!nplace) { state.error = '캠핑장 이름을 적어 주세요.'; return render(); }
+      t.place = nplace; t.startDate = val('f_start'); t.endDate = val('f_end'); t.note = val('f_note');
+      state.editingTrip = false;
+      return guard(async function () {
+        await saveTrip(t);
+        state.trips.sort(function (a, b) { return (b.startDate || '').localeCompare(a.startDate || ''); });
+      });
     }
 
     if (act === 'delTrip') {
